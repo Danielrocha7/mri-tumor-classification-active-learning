@@ -1,0 +1,35 @@
+# Python
+__pycache__/
+*.py[cod]
+.ipynb_checkpoints/
+.venv/
+*.egg-info/
+
+# Data and heavy files (never in Git)
+data/*
+!data/README.md
+*.pth
+*.pt
+*.npy
+*.npz
+*.h5
+*.joblib
+*.pkl
+
+# Local databases and run-time files of the application
+*.sqlite
+*.sqlite3
+*.db
+app/pending/
+app/processed/
+
+# Credentials and local environment
+.env
+*.key
+*.token
+
+# System / editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

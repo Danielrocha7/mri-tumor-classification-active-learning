@@ -1,0 +1,21 @@
+name: mri-tumor-classification-active-learning
+channels:
+  - pytorch
+  - conda-forge
+dependencies:
+  - python=3.11
+  - pip
+  - pytorch
+  - torchvision
+  - numpy
+  - pandas
+  - scikit-learn
+  - matplotlib
+  - pillow
+  - pyyaml
+  - ipykernel
+  - jupyterlab
+  - pip:
+      - imagehash
+      - customtkinter
+      - bcrypt

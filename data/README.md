@@ -52,4 +52,4 @@ Measured with the same 64-bit difference hash used for curation (Hamming distanc
 
 Among the pairs at distance <= 2, 99.8 % carry the same class label, so the matches are real and not hash collisions. The Nickparvar dataset is therefore largely contained in the Kaggle dataset used for training, and cannot be used as an external test as it is.
 
-The external test set is built only from the images with no near-twin in the training data. At distance > 2 the Testing subset keeps 1,130 images (glioma 366, meningioma 337, notumor 172, pituitary 255). The hash is not invariant to flips or rotations, so some remaining images may still be copies.
+The external test set is built only from the images with no near-twin in the training data. Nickparvar is never used for training, so its own Training and Testing folders do not matter. At distance > 2, 2,088 of the 7,200 images are kept (glioma 464, meningioma 512, notumor 807, pituitary 305). The hash is not invariant to flips or rotations, so some remaining images may still be copies.

@@ -10,8 +10,9 @@ Count files per class, check image format and size, hash every file (MD5), and c
 
 - Exact duplicates by MD5.
 - Near-duplicates by a 64-bit difference hash (dHash, 9x8), checked against pixel correlation on a sample.
-- Near-duplicate groups by Hamming-distance threshold and connected components (union-find). The threshold is chosen by looking at cross-class conflicts, not by convenience.
+- Near-duplicate groups: every pair of images is compared by the pixel correlation of 64x64 grayscale thumbnails, pairs at or above 0.95 are linked, and linked images form groups (union-find). The dHash is used only for exact duplicates and for reporting, because it misses real duplicates at larger Hamming distances. The 0.95 threshold is checked by a sensitivity analysis (0.90, 0.95, 0.98).
 - Groups that mix classes are reviewed by hand and removed or relabelled.
+- Label conflicts: pairs of near-identical images with different classes are listed and reviewed.
 - Source-shortcut checks: file size, dimensions and metadata against class.
 - Output: a manifest with hash, group and class per image (no images tracked).
 

@@ -9,7 +9,7 @@ Running list, updated as the work goes on. It becomes the limitations section of
 
 ## Of this project (to fill in)
 
-- Hash-based near-duplicate detection is not invariant to flips and rotations, so some duplicates may remain.
+- Near-duplicate detection (pixel correlation of 64x64 thumbnails) is not invariant to flips, rotations or crops, so some duplicates may remain.
 - Patient-level splitting is impossible without patient IDs; group-level splitting is only a proxy.
 - Simulated active learning uses labels that already exist; it does not measure annotation effort or annotator error.
 - No prospective or clinical validation. This is not a clinical decision tool.

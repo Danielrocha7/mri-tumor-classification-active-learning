@@ -1,4 +1,4 @@
-"""Shared helpers: difference hash, Hamming distance, seed."""
+"""Shared helpers: difference hash, thumbnails, Hamming distance, seed."""
 import io
 import random
 import numpy as np
@@ -15,6 +15,24 @@ def dhash(data):
     for b in bits:
         value = (value << 1) | int(b)
     return value, w, h
+
+
+def thumb(data):
+    """64x64 grayscale thumbnail (uint8) of an image given as bytes."""
+    im = Image.open(io.BytesIO(data)).convert("L").resize((64, 64), Image.BILINEAR)
+    return np.asarray(im, dtype=np.uint8)
+
+
+def load_thumbs(prefix, n):
+    """Load the thumbnail chunks written by 02_make_thumbnails.py as normalised vectors."""
+    parts = []
+    for k in range(0, n, 1000):
+        parts.append(np.load("%s_%05d.npy" % (prefix, k // 1000)))
+    x = np.concatenate(parts).reshape(n, -1).astype(np.float32)
+    x -= x.mean(axis=1, keepdims=True)
+    norm = np.sqrt((x ** 2).sum(axis=1, keepdims=True))
+    norm[norm == 0] = np.inf
+    return x / norm
 
 
 def popcount(x):

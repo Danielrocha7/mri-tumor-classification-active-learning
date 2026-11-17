@@ -30,3 +30,7 @@ At 0.98, six pairs of images with correlation 1.000 carry different labels (meni
 
 - Thumbnails of 64x64 pixels and a fixed threshold: duplicates that were cropped, flipped or rotated can be missed.
 - No patient identifiers exist, so groups are a proxy for patients.
+
+## Splits (seed 42)
+
+25 groups with more than one class (266 images) are excluded and listed in `splits/excluded_label_conflicts.tsv`. Labels are not corrected by eye: a label can only be fixed by someone qualified to read the scans. The remaining 21,751 images go to `splits/kaggle_splits_seed42.tsv`: 2,989 test and 18,762 for cross-validation (6 folds), grouped and stratified by class. `tests/test_splits.py` checks that no group crosses partitions and that no test image has a pixel twin (correlation >= 0.95) in the training part. The same check on a random per-image split finds twins for a large share of the test images, which is how the original split behaved.

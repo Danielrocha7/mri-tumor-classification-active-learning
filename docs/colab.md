@@ -35,4 +35,6 @@ One real run (validation fold 0, test not used):
 !python {P}/scripts/07_train_supervised.py --data {P}/kaggle224_seed42.npz --model efficientnet_b0 --val-fold 0 --out {P}/results/efficientnet_b0_f0
 ```
 
+Available models: `efficientnet_b0` (same recipe as the others), `efficientnet_b0_original` (architecture of the group project, for the replica), `resnet50`, `convnext_tiny`, `dinov2_linear`.
+
 Results (`metrics.json`, validation probabilities) are written to `results/` in Drive. The test set is only used with `--predict-test`, once, for the final model of each architecture.

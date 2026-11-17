@@ -21,7 +21,7 @@ from utils import set_seed
 
 p = argparse.ArgumentParser()
 p.add_argument("--data", required=True)
-p.add_argument("--model", required=True, choices=["efficientnet_b0", "resnet50", "convnext_tiny", "dinov2_linear"])
+p.add_argument("--model", required=True, choices=["efficientnet_b0", "efficientnet_b0_original", "resnet50", "convnext_tiny", "dinov2_linear"])
 p.add_argument("--val-fold", type=int, default=0)
 p.add_argument("--epochs", type=int, default=12)
 p.add_argument("--lr", type=float, default=3e-4)
@@ -75,6 +75,14 @@ def build(name):
     if name == "efficientnet_b0":
         m = models.efficientnet_b0(weights=w)
         m.classifier[1] = nn.Linear(m.classifier[1].in_features, 4)
+    elif name == "efficientnet_b0_original":
+        # Architecture of the group project (CNNmelhor.py): partial freezing and its own head
+        m = models.efficientnet_b0(weights=w)
+        for q in list(m.features.parameters())[:100]:
+            q.requires_grad = False
+        n_in = m.classifier[1].in_features
+        m.classifier = nn.Sequential(nn.Dropout(0.4), nn.Linear(n_in, 256), nn.ReLU(), nn.BatchNorm1d(256),
+                                     nn.Dropout(0.3), nn.Linear(256, 4))
     elif name == "resnet50":
         m = models.resnet50(weights=w)
         m.fc = nn.Linear(m.fc.in_features, 4)

@@ -33,3 +33,6 @@ app/processed/
 Thumbs.db
 .vscode/
 .idea/
+
+# Local working notes (not published)
+CLAUDE.md

@@ -108,7 +108,11 @@ ConvNeXt-Tiny is better in two seeds and equal in one, so the ranking is not fir
 | ConvNeXt-Tiny | 0.9965 | 0.9495 (0.0080) | 0.859 |
 | EfficientNet-B0 (original head) | 0.9927 | 0.9257 (0.0090) | 0.854 |
 
-Performance drops on another source, mostly because about 14% of the gliomas are missed by both architectures; ConvNeXt-Tiny stays ahead in all three seeds. The cause of the glioma drop has not been investigated.
+Performance drops on another source, mostly because about 14% of the gliomas are missed by both architectures; ConvNeXt-Tiny stays ahead in all three seeds. The glioma errors are described in [`docs/external_evaluation.md`](docs/external_evaluation.md); no cause is established.
+
+![Internal test against external set: macro-F1 per seed and recall per class](docs/figures/internal_vs_external.png)
+
+![External confusion matrices](docs/figures/external_confusion.png)
 
 ## Reproducibility
 
@@ -120,7 +124,7 @@ Performance drops on another source, mostly because about 14% of the gliomas are
 
 ## License
 
-The code will be released under the MIT license; the `LICENSE` file is still to be added. The dataset is not covered by it and keeps its own terms.
+The code is released under the [MIT license](LICENSE) (Copyright 2026 Daniel Rocha). The original group code in `original/`, when added, keeps its authors' credit. The dataset is not covered by the license and keeps its own terms.
 
 ## Credits
 

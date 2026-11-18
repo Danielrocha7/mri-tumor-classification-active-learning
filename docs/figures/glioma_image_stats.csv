@@ -1,0 +1,4 @@
+group,n,mean_intensity,sd_intensity,foreground_fraction
+external, missed by all 6,46,70.5,56.8,0.681
+external, found by all 6,371,36.0,39.3,0.484
+internal test gliomas,754,26.0,35.0,0.366

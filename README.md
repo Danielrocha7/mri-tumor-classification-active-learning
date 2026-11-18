@@ -115,6 +115,6 @@ The code will be released under the MIT license; the `LICENSE` file is still to 
 
 ## Credits
 
-Original group project, Human-Centric Artificial Intelligence, University of Coimbra, 2025: João Pedro Ferreira, João Frederico Lopes and Daniel Rocha. The authors agreed that this work could be extended and published.
+Original group project, Human-Centric Artificial Intelligence, University of Coimbra, 2025: João Pedro Ferreira, João Frederico Lopes and Daniel Rocha. 
 
 Maintained by Daniel Rocha.

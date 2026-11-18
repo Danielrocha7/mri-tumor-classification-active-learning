@@ -33,6 +33,9 @@ for f in sorted(glob.glob(os.path.join(results, "*", "metrics.json"))):
         continue
     runs.setdefault(m["args"]["model"], []).append(m)
 models = [k for k in colour if k in runs]
+all_models = models
+# models far below the plotted range (frozen-backbone probe) are kept in the table only
+models = [k for k in models if np.mean([r["val"]["macro_f1"] for r in runs[k]]) >= 0.98]
 
 plt.rcParams.update({"font.family": "sans-serif",
                      "font.sans-serif": ["Arial", "Helvetica", "Liberation Sans", "DejaVu Sans"],
@@ -66,11 +69,13 @@ ax1.set_xlim(1, 17)
 ax1.set_xticks([1, 4, 8, 12])
 
 rows = []
+for k in all_models:
+    best = np.array([r["val"]["macro_f1"] for r in runs[k]])
+    rows.append([label[k], len(best), "%.4f" % best.mean(), "%.4f" % (best.std(ddof=1) if len(best) > 1 else 0.0)])
 for i, k in enumerate(models):
     best = np.array([r["val"]["macro_f1"] for r in runs[k]])
     ax2.scatter(np.full(len(best), i), best, s=14, color=colour[k], zorder=3)
     ax2.hlines(best.mean(), i - 0.3, i + 0.3, color=colour[k], lw=1.6, zorder=2)
-    rows.append([label[k], len(best), "%.4f" % best.mean(), "%.4f" % (best.std(ddof=1) if len(best) > 1 else 0.0)])
 ax2.set_xticks(range(len(models)))
 ax2.set_xticklabels([short[k] for k in models], fontsize=6.5)
 ax2.set_ylabel("Best validation macro-F1")

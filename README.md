@@ -86,6 +86,7 @@ Draft, in order of priority:
 | EfficientNet-B0 | 0.9944 | 0.0026 |
 | ResNet-50 | 0.9940 | 0.0030 |
 | EfficientNet-B0 (head of the original project) | 0.9914 | 0.0020 |
+| DINOv2-B, frozen, linear layer only (not in the figure) | 0.9192 | 0.0081 |
 
 ![Validation macro-F1 of the baselines](docs/figures/baselines_validation.png)
 

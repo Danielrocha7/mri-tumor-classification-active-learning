@@ -18,3 +18,4 @@
 | 2026-11-18 | Skip batches with fewer than two images in supervised training | BatchNorm1d in the original head fails on a batch of one (fold 3 leaves one) | commit 51d2c39 | Adopted |
 | 2026-11-18 | ConvNeXt-Tiny is the reference supervised baseline for the next phases | Best mean validation macro-F1 over 6 folds (0.9970), small margin | `docs/baselines.md` | Adopted |
 | 2026-11-18 | Checkpoints chosen on validation macro-F1; test set used once per final model | Avoids repeating the test-set selection of the original | `docs/baselines.md` | Adopted |
+| 2026-11-18 | DINOv2-B linear probe reported in the table but not in the figure | Its macro-F1 (0.919) is far below the fine-tuned models and would distort the axes | `docs/baselines.md` | Adopted |

@@ -4,7 +4,7 @@ Four-class classification of brain MRI slices (glioma, meningioma, pituitary tum
 
 This repository continues a group project from the Human-Centric Artificial Intelligence course (University of Coimbra, 2025). The original code is kept apart in [`original/`](original/) and credited [below](#credits). Everything outside that folder is new work by Daniel Rocha, aimed at a sounder evaluation and a reproducible codebase.
 
-> **Status (2026-11-17):** repository being set up. The original code has not been moved here yet and none of the experiments have been re-run, so there are no results in this repository yet. The roadmap below lists what is planned.
+> **Status (2026-11-18):** leak-free splits, baselines, and internal and external evaluation are done (see [Results](#results)). The original code has not been moved here yet. Active learning, the final evaluation and the application are still to do; see the roadmap.
 
 > **Not a clinical tool.** This is a learning and portfolio project. It must not be used to diagnose, triage or make any medical decision.
 

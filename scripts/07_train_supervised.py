@@ -128,6 +128,8 @@ for ep in range(a.epochs):
     loss_sum = 0.0
     for s in range(0, len(perm), a.batch):
         idx = perm[s:s + a.batch]
+        if len(idx) < 2:  # BatchNorm1d in the head cannot train on a single sample
+            continue
         with torch.autocast(dev.type, enabled=dev.type == "cuda"):
             loss = F.cross_entropy(model(prep(idx, True)), y_gpu[idx])
         opt.zero_grad()

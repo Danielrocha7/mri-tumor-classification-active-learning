@@ -99,7 +99,16 @@ The differences are small and the folds share training data, so no significance 
 | ConvNeXt-Tiny | 0.9965 (0.0042) | 0.9987, 0.9990, 0.9916 |
 | EfficientNet-B0 (original head) | 0.9927 (0.0009) | 0.9936, 0.9920, 0.9923 |
 
-ConvNeXt-Tiny is better in two seeds and equal in one, so the ranking is not firm. This is still an internal test on the same dataset; the external test is pending.
+ConvNeXt-Tiny is better in two seeds and equal in one, so the ranking is not firm. This is an internal test on the same dataset.
+
+**External set (2,180 Nickparvar images with no near-twin in the training data).** Same models and seeds; details and limits in [`docs/external_evaluation.md`](docs/external_evaluation.md).
+
+| Model | Internal test macro-F1 | External macro-F1 (SD) | Glioma recall, external |
+|:--|:--|:--|:--|
+| ConvNeXt-Tiny | 0.9965 | 0.9495 (0.0080) | 0.859 |
+| EfficientNet-B0 (original head) | 0.9927 | 0.9257 (0.0090) | 0.854 |
+
+Performance drops on another source, mostly because about 14% of the gliomas are missed by both architectures; ConvNeXt-Tiny stays ahead in all three seeds. The cause of the glioma drop has not been investigated.
 
 ## Reproducibility
 

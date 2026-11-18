@@ -1,0 +1,21 @@
+convnext_tiny: external macro-F1 mean 0.9495 sd 0.0080; acc mean 0.9575; reweighted acc mean 0.9452; internal macro-F1 mean 0.9965
+  recall per class (mean over seeds): glioma 0.859; meningioma 0.994; notumor 0.985; pituitary 0.948
+  precision per class (pooled): glioma 0.990; meningioma 0.913; notumor 0.972; pituitary 0.948
+  confusion matrix pooled over seeds (rows true, cols pred; order glioma, meningioma, notumor, pituitary)
+   [1170, 113, 65, 14]
+   [0, 1583, 0, 10]
+   [12, 24, 2929, 8]
+   [0, 14, 18, 580]
+efficientnet_b0_original: external macro-F1 mean 0.9257 sd 0.0090; acc mean 0.9378; reweighted acc mean 0.9385; internal macro-F1 mean 0.9927
+  recall per class (mean over seeds): glioma 0.854; meningioma 0.986; notumor 0.944; pituitary 0.969
+  precision per class (pooled): glioma 0.981; meningioma 0.893; notumor 0.975; pituitary 0.827
+  confusion matrix pooled over seeds (rows true, cols pred; order glioma, meningioma, notumor, pituitary)
+   [1163, 115, 60, 24]
+   [0, 1571, 6, 16]
+   [23, 60, 2806, 84]
+   [0, 13, 6, 593]
+
+McNemar exact (same seed; b = only A correct, c = only B correct)
+  seed 42: convnext_tiny vs efficientnet_b0_original: b=62 c=22 p=1.47e-05
+  seed 43: convnext_tiny vs efficientnet_b0_original: b=67 c=16 p=1.39e-08
+  seed 44: convnext_tiny vs efficientnet_b0_original: b=60 c=22 p=3.23e-05

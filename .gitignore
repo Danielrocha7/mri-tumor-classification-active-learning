@@ -36,3 +36,7 @@ Thumbs.db
 
 # Local working notes (not published)
 CLAUDE.md
+
+# Small derived results are tracked (predictions only, no images or weights)
+!results/
+!results/**/*.npz

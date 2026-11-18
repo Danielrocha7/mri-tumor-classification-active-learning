@@ -1,0 +1,117 @@
+{
+ "args": {
+  "data": "/kaggle/input/datasets/danielrocha07/mri-baselines/kaggle224_seed42.npz",
+  "model": "efficientnet_b0_original",
+  "val_fold": 0,
+  "epochs": 12,
+  "lr": 0.0003,
+  "weight_decay": 0.0001,
+  "batch": 64,
+  "seed": 42,
+  "out": "/kaggle/working/results_ext/efficientnet_b0_original_s42",
+  "predict_test": true,
+  "external": "/kaggle/working/nickparvar224_external.npz",
+  "save_weights": true,
+  "quick": false,
+  "no_pretrained": false
+ },
+ "history": [
+  {
+   "accuracy": 0.9648604269293924,
+   "macro_f1": 0.9642609879257314,
+   "epoch": 1,
+   "loss": 0.25381180033274503,
+   "seconds": 29.7
+  },
+  {
+   "accuracy": 0.9730706075533662,
+   "macro_f1": 0.9725557695866661,
+   "epoch": 2,
+   "loss": 0.08066120504050178,
+   "seconds": 25.5
+  },
+  {
+   "accuracy": 0.9707717569786535,
+   "macro_f1": 0.9699082169337145,
+   "epoch": 3,
+   "loss": 0.05239104394246742,
+   "seconds": 24.9
+  },
+  {
+   "accuracy": 0.9727422003284072,
+   "macro_f1": 0.9724740796625337,
+   "epoch": 4,
+   "loss": 0.04191226784669381,
+   "seconds": 24.9
+  },
+  {
+   "accuracy": 0.9799671592775041,
+   "macro_f1": 0.9796602682981238,
+   "epoch": 5,
+   "loss": 0.02585282838358985,
+   "seconds": 25.2
+  },
+  {
+   "accuracy": 0.9779967159277504,
+   "macro_f1": 0.9777659980732163,
+   "epoch": 6,
+   "loss": 0.020248926087203967,
+   "seconds": 25.1
+  },
+  {
+   "accuracy": 0.9812807881773399,
+   "macro_f1": 0.9811471268459298,
+   "epoch": 7,
+   "loss": 0.0143616156185753,
+   "seconds": 25.0
+  },
+  {
+   "accuracy": 0.9852216748768473,
+   "macro_f1": 0.9850304254346681,
+   "epoch": 8,
+   "loss": 0.015193924377270917,
+   "seconds": 25.0
+  },
+  {
+   "accuracy": 0.9875205254515599,
+   "macro_f1": 0.9874698508556564,
+   "epoch": 9,
+   "loss": 0.008978570562672634,
+   "seconds": 25.1
+  },
+  {
+   "accuracy": 0.9878489326765189,
+   "macro_f1": 0.9877916658465162,
+   "epoch": 10,
+   "loss": 0.0065870899549458645,
+   "seconds": 25.1
+  },
+  {
+   "accuracy": 0.9891625615763546,
+   "macro_f1": 0.9890685115305495,
+   "epoch": 11,
+   "loss": 0.006922474319273257,
+   "seconds": 25.1
+  },
+  {
+   "accuracy": 0.9888341543513958,
+   "macro_f1": 0.9886980866862747,
+   "epoch": 12,
+   "loss": 0.0063408713094442615,
+   "seconds": 25.1
+  }
+ ],
+ "best_epoch": 11,
+ "val": {
+  "accuracy": 0.9891625615763546,
+  "macro_f1": 0.9890685115305495
+ },
+ "test": {
+  "accuracy": 0.9936433589829374,
+  "macro_f1": 0.9937437931300878
+ },
+ "external": {
+  "accuracy": 0.9426605504587156,
+  "macro_f1": 0.9356377614157352
+ }
+}

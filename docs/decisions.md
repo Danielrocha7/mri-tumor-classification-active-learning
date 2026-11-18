@@ -14,3 +14,7 @@
 | 2026-11-17 | External test set = only Nickparvar images with no near-twin in the training data (pixel correlation < 0.95) | 71 % of the Nickparvar images have a near-twin in the Kaggle dataset, so the full dataset is not external | `data/README.md` | Adopted |
 | 2026-11-17 | Near-duplicate groups from exhaustive pixel correlation of 64x64 thumbnails, threshold 0.95; dHash not used as a filter | A hash-distance window misses real duplicates (confirmed pairs still appear at distances 5 to 10), and larger distances chain unrelated images | `docs/curation.md` | Adopted |
 | 2026-11-17 | Splits: groups with mixed labels excluded; one fold of 7 as test (seed 42), the rest in 6 cross-validation folds; groups never cross partitions | Avoids leakage and label conflicts; labels are not changed by eye | `splits/`, `tests/test_splits.py` | Adopted |
+
+| 2026-11-18 | Skip batches with fewer than two images in supervised training | BatchNorm1d in the original head fails on a batch of one (fold 3 leaves one) | commit 51d2c39 | Adopted |
+| 2026-11-18 | ConvNeXt-Tiny is the reference supervised baseline for the next phases | Best mean validation macro-F1 over 6 folds (0.9970), small margin | `docs/baselines.md` | Adopted |
+| 2026-11-18 | Checkpoints chosen on validation macro-F1; test set used once per final model | Avoids repeating the test-set selection of the original | `docs/baselines.md` | Adopted |

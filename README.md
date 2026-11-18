@@ -68,8 +68,8 @@ The images are **not** stored in this repository. The original project used the 
 Draft, in order of priority:
 
 - [ ] Re-run the original pipeline and record the baseline metrics
-- [ ] Check the dataset for near-duplicate images (perceptual hashing) before splitting
-- [ ] Use separate training, validation and test sets; choose checkpoints on validation only
+- [x] Check the dataset for near-duplicate images before splitting (group-aware splits in `splits/`)
+- [x] Use separate training, validation and test sets; choose checkpoints on validation only (supervised baselines)
 - [ ] Report per-class recall and precision, the confusion matrix, and confidence intervals, not only accuracy
 - [ ] Compare active learning with random sampling and with a fully supervised baseline
 - [ ] Make the retraining loop unable to reach the test set
@@ -78,7 +78,18 @@ Draft, in order of priority:
 
 ## Results
 
-None yet. For reference, the original project reported a best test accuracy of 0.9475, where the best checkpoint was chosen on the test set itself, so that figure is likely optimistic. It will be replaced by results from the re-evaluation.
+**Supervised baselines (validation, 6-fold group-aware cross-validation).** Mean of the best-epoch validation macro-F1 per fold; details and caveats in [`docs/baselines.md`](docs/baselines.md). The test set has not been used yet.
+
+| Model | Mean | SD |
+|:--|:--|:--|
+| ConvNeXt-Tiny | 0.9970 | 0.0013 |
+| EfficientNet-B0 | 0.9944 | 0.0026 |
+| ResNet-50 | 0.9940 | 0.0030 |
+| EfficientNet-B0 (head of the original project) | 0.9914 | 0.0020 |
+
+![Validation macro-F1 of the baselines](docs/figures/baselines_validation.png)
+
+The differences are small and the folds share training data, so no significance test is reported. For reference, the original project reported a best test accuracy of 0.9475, where the best checkpoint was chosen on the test set itself, so that figure is likely optimistic.
 
 ## Reproducibility
 

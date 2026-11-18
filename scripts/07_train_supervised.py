@@ -1,6 +1,7 @@
 """Stage 7: fully supervised baseline on one cross-validation fold.
 Trains on the other folds, picks the epoch by validation macro-F1, and writes
-validation probabilities. Test probabilities are written only with --predict-test.
+validation probabilities. Test probabilities are written only with --predict-test,
+external-set probabilities only with --external (packed with 06_pack_images.py).
 Usage (Colab, GPU): python scripts/07_train_supervised.py --data kaggle224_seed42.npz --model resnet50 --val-fold 0 --out results/resnet50_f0
 """
 import argparse
@@ -30,6 +31,8 @@ p.add_argument("--batch", type=int, default=64)
 p.add_argument("--seed", type=int, default=42)
 p.add_argument("--out", required=True)
 p.add_argument("--predict-test", action="store_true")
+p.add_argument("--external", default=None, help="packed external set; predicted once with the best-validation epoch")
+p.add_argument("--save-weights", action="store_true")
 p.add_argument("--quick", action="store_true", help="smoke test: 256 images, 1 epoch")
 p.add_argument("--no-pretrained", action="store_true")
 a = p.parse_args()
@@ -154,5 +157,15 @@ if a.predict_test:
     test_prob = predict(te)
     result["test"] = metrics(test_prob, te)
     np.savez(os.path.join(a.out, "test_probs.npz"), idx=te, prob=test_prob)
+if a.external:  # own addition: external set, same preprocessing, never used to choose anything
+    ext = np.load(a.external)
+    x_all, y_all = ext["images"], ext["y"]
+    x_gpu, y_gpu = torch.from_numpy(x_all).to(dev), torch.from_numpy(y_all).to(dev)
+    ei = np.arange(len(y_all))
+    ext_prob = predict(ei)
+    result["external"] = metrics(ext_prob, ei)
+    np.savez(os.path.join(a.out, "external_probs.npz"), idx=ei, prob=ext_prob)
+if a.save_weights:
+    torch.save(best_state, os.path.join(a.out, "best.pt"))
 json.dump(result, open(os.path.join(a.out, "metrics.json"), "w"), indent=1)
-print("best epoch", result["best_epoch"], "val", result["val"], "test" if a.predict_test else "(test not used)", result.get("test", ""))
+print("best epoch", result["best_epoch"], "val", result["val"], "test" if a.predict_test else "(test not used)", result.get("test", ""), "external", result.get("external", ""))

@@ -70,7 +70,7 @@ Draft, in order of priority:
 - [ ] Re-run the original pipeline and record the baseline metrics
 - [x] Check the dataset for near-duplicate images before splitting (group-aware splits in `splits/`)
 - [x] Use separate training, validation and test sets; choose checkpoints on validation only (supervised baselines)
-- [ ] Report per-class recall and precision, the confusion matrix, and confidence intervals, not only accuracy
+- [x] Report per-class recall and precision, the confusion matrix, and confidence intervals, not only accuracy (supervised models, internal test)
 - [ ] Compare active learning with random sampling and with a fully supervised baseline
 - [ ] Make the retraining loop unable to reach the test set
 - [ ] Application: hash passwords, keep the database out of the repository, move settings to the config file
@@ -78,7 +78,7 @@ Draft, in order of priority:
 
 ## Results
 
-**Supervised baselines (validation, 6-fold group-aware cross-validation).** Mean of the best-epoch validation macro-F1 per fold; details and caveats in [`docs/baselines.md`](docs/baselines.md). The test set has not been used yet.
+**Supervised baselines (validation, 6-fold group-aware cross-validation).** Mean of the best-epoch validation macro-F1 per fold; details and caveats in [`docs/baselines.md`](docs/baselines.md).
 
 | Model | Mean | SD |
 |:--|:--|:--|
@@ -91,6 +91,15 @@ Draft, in order of priority:
 ![Validation macro-F1 of the baselines](docs/figures/baselines_validation.png)
 
 The differences are small and the folds share training data, so no significance test is reported. For reference, the original project reported a best test accuracy of 0.9475, where the best checkpoint was chosen on the test set itself, so that figure is likely optimistic.
+
+**Closed test set (2,989 images, group-aware split, opened once per final model).** Three seeds per model; macro-F1 mean (SD); details, intervals and limits in [`docs/test_evaluation.md`](docs/test_evaluation.md).
+
+| Model | Test macro-F1 | Test accuracy per seed |
+|:--|:--|:--|
+| ConvNeXt-Tiny | 0.9965 (0.0042) | 0.9987, 0.9990, 0.9916 |
+| EfficientNet-B0 (original head) | 0.9927 (0.0009) | 0.9936, 0.9920, 0.9923 |
+
+ConvNeXt-Tiny is better in two seeds and equal in one, so the ranking is not firm. This is still an internal test on the same dataset; the external test is pending.
 
 ## Reproducibility
 

@@ -32,4 +32,4 @@ Date: 2026-11-18. Script: `scripts/07_train_supervised.py`; figure: `scripts/08_
 - Fold 3 has 15,681 training images, which leaves a final batch of one image. Batch normalisation in the original head cannot train on one sample, so batches with fewer than two images are now skipped (commit 51d2c39).
 - Folds 3 to 5 of the later runs were trained on a free Kaggle GPU after the Colab quota ran out; the code and data are the same.
 - The DINOv2-B linear probe (frozen ViT-B/14, only the final linear layer trained, same recipe and folds) was trained on a Kaggle T4. It is far below the fine-tuned models and is left out of the figure so the axes stay readable. Its curve was still rising slowly at epoch 12 (same learning rate and 12 epochs as the others), so the value is slightly underestimated; it shows that the frozen features alone are not enough for this task.
-- Not done yet: several seeds, test-set evaluation.
+- Test-set evaluation with 3 seeds: see `docs/test_evaluation.md`.

@@ -1,0 +1,19 @@
+convnext_tiny: test macro-F1 mean 0.9965 sd 0.0042; acc mean 0.9964 sd 0.0042; val macro-F1 mean 0.9954
+  per-class (pooled over seeds): glioma P1.000 R0.997 F1 0.999; meningioma P0.995 R0.994 F1 0.994; notumor P1.000 R0.995 F1 0.997; pituitary P0.992 R0.999 F1 0.996
+  confusion matrix (rows true, cols pred, pooled over seeds)
+   [2256, 2, 0, 4]
+   [0, 2192, 1, 12]
+   [0, 7, 2024, 3]
+   [0, 3, 0, 2463]
+efficientnet_b0_original: test macro-F1 mean 0.9927 sd 0.0009; acc mean 0.9926 sd 0.0009; val macro-F1 mean 0.9891
+  per-class (pooled over seeds): glioma P0.996 R0.996 F1 0.996; meningioma P0.991 R0.985 F1 0.988; notumor P1.000 R0.992 F1 0.996; pituitary P0.986 R0.997 F1 0.991
+  confusion matrix (rows true, cols pred, pooled over seeds)
+   [2252, 8, 1, 1]
+   [6, 2173, 0, 26]
+   [3, 4, 2018, 9]
+   [0, 8, 0, 2458]
+
+McNemar exact (same seed, paired on test images; b = only A correct, c = only B correct)
+  seed 42: convnext_tiny vs efficientnet_b0_original: b=17 c=2 p=7.29e-04
+  seed 43: convnext_tiny vs efficientnet_b0_original: b=22 c=1 p=5.72e-06
+  seed 44: convnext_tiny vs efficientnet_b0_original: b=21 c=23 p=8.80e-01

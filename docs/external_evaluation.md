@@ -38,7 +38,7 @@ Paired McNemar tests (exact, same seed): ConvNeXt-Tiny is better in all three se
 
 ## Recall per class, internal against external
 
-Mean of the three seeds. The internal interval resamples near-duplicate groups, the external one resamples images; 2,000 resamples, the same resample shared by the three seeds of a model. Figure: `docs/figures/internal_vs_external.png`; table: `docs/internal_vs_external_recall.csv`.
+Mean of the three seeds. The internal interval resamples near-duplicate groups, the external one resamples images; 2,000 resamples, the same resample shared by the three seeds of a model. Figure: `docs/figures/internal_vs_external.png`; table: `docs/figures/internal_vs_external_recall.csv`.
 
 | Class (n internal / n external) | ConvNeXt-Tiny internal | ConvNeXt-Tiny external (95% CI) | EfficientNet-B0 internal | EfficientNet-B0 external (95% CI) |
 |:--|--:|:--|--:|:--|

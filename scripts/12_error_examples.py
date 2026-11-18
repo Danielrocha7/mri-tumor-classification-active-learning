@@ -1,4 +1,4 @@
-# Stage 6: look at the external glioma errors. Writes a grid of external gliomas missed by all six runs next to
+# Stage 12: look at the external glioma errors. Writes a grid of external gliomas missed by all six runs next to
 # gliomas found by all six, and simple image statistics (mean, spread, foreground fraction) for both groups and for
 # the internal test gliomas. Descriptive only: no cause is tested here.
 # Usage: python scripts/12_error_examples.py RUNS_DIR DATA_NPZ EXTERNAL_NPZ OUT_DIR

@@ -1,4 +1,4 @@
-# Stage 6: internal test against external set, same models and seeds.
+# Stage 11: internal test against external set, same models and seeds.
 # Per-class recall with bootstrap CIs (groups for the internal test, images for the external set), table and two figures.
 # Usage: python scripts/11_internal_vs_external.py RUNS_DIR DATA_NPZ EXTERNAL_NPZ OUT_DIR
 

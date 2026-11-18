@@ -1,4 +1,4 @@
-# Stage 5: closed test-set evaluation of the final supervised models (test opened once per model).
+# Stage 9: closed test-set evaluation of the final supervised models (test opened once per model).
 # Reads test_probs.npz of each run, writes a summary table, bootstrap CIs and paired McNemar tests.
 # Usage: python scripts/09_test_evaluation.py RUNS_DIR DATA_NPZ OUT_DIR
 
@@ -34,6 +34,7 @@ def boot_ci(idx, pred, n=2000):
     return np.percentile(accs, [2.5, 97.5]), np.percentile(f1s, [2.5, 97.5])
 
 
+# one row per run: accuracy and macro-F1 with group-bootstrap intervals
 rows = []
 for n, r in runs.items():
     y = y_all[r["idx"]]

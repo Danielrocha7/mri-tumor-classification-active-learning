@@ -12,6 +12,7 @@ sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), ".."
 from utils import thumb
 
 root, hashes, prefix, budget = sys.argv[1], sys.argv[2], sys.argv[3], float(sys.argv[4])
+# same order as the hash table: thumbnail i belongs to row i
 paths = [l.split("\t")[0] for l in open(hashes)][1:]
 start = time.time()
 
@@ -20,6 +21,7 @@ def work(rel):
     return thumb(open(os.path.join(root, rel), "rb").read())
 
 
+# one file per 1000 images, written under a temporary name and renamed, so a stopped run leaves no half file
 with ThreadPoolExecutor(12) as ex:
     for k in range(0, len(paths), 1000):
         name = "%s_%05d.npy" % (prefix, k // 1000)

@@ -26,6 +26,7 @@ label = {"efficientnet_b0_original": "EfficientNet-B0 (original)", "efficientnet
 short = {"efficientnet_b0_original": "EffNet-B0\n(original)", "efficientnet_b0": "EffNet-B0", "resnet50": "ResNet-50",
          "convnext_tiny": "ConvNeXt-T", "dinov2_linear": "DINOv2-B\n(linear)"}
 
+# group the runs by model; smoke-test runs are skipped
 runs = {}
 for f in sorted(glob.glob(os.path.join(results, "*", "metrics.json"))):
     m = json.load(open(f))

@@ -10,6 +10,7 @@ def dhash(data):
     im = Image.open(io.BytesIO(data)).convert("L")
     w, h = im.size
     px = np.asarray(im.resize((9, 8), Image.LANCZOS)).astype(int)
+    # a bit is 1 when a pixel is brighter than its right neighbour
     bits = (px[:, :-1] > px[:, 1:]).flatten()
     value = 0
     for b in bits:
@@ -29,8 +30,10 @@ def load_thumbs(prefix, n):
     for k in range(0, n, 1000):
         parts.append(np.load("%s_%05d.npy" % (prefix, k // 1000)))
     x = np.concatenate(parts).reshape(n, -1).astype(np.float32)
+    # centre and scale every image, so that a dot product between two images is their Pearson correlation
     x -= x.mean(axis=1, keepdims=True)
     norm = np.sqrt((x ** 2).sum(axis=1, keepdims=True))
+    # a flat image gets a zero vector instead of a division by zero
     norm[norm == 0] = np.inf
     return x / norm
 

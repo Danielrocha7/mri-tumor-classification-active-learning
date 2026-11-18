@@ -1,4 +1,4 @@
-# Stage 5: external-set evaluation (Nickparvar images without a near-twin in the training data).
+# Stage 10: external-set evaluation (Nickparvar images without a near-twin in the training data).
 # Reads external_probs.npz of each run; writes per-run table, per-class results, confusion matrices, McNemar.
 # Usage: python scripts/10_external_evaluation.py RUNS_DIR EXTERNAL_NPZ OUT_DIR
 
@@ -21,6 +21,7 @@ for p in sorted(glob.glob(os.path.join(runs_dir, "*", "external_probs.npz"))):
 models = sorted({n.rsplit("_s", 1)[0] for n in runs})
 
 
+# image-level bootstrap: no near-duplicate groups are left in the external set
 def boot(pred, n=2000):
     a, f = [], []
     for _ in range(n):
@@ -30,10 +31,12 @@ def boot(pred, n=2000):
     return np.percentile(a, [2.5, 97.5]), np.percentile(f, [2.5, 97.5])
 
 
+# recall of each class
 def recall(pred):
     return np.array([(pred[y == k] == k).mean() for k in range(4)])
 
 
+# per run: metrics and intervals; the reweighted accuracy applies each class recall to the class mix of the internal test
 rows = []
 for n, r in runs.items():
     pred = r["pred"]

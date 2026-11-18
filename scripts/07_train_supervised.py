@@ -37,6 +37,7 @@ p.add_argument("--quick", action="store_true", help="smoke test: 256 images, 1 e
 p.add_argument("--no-pretrained", action="store_true")
 a = p.parse_args()
 
+# fixed seeds make the runs repeatable
 set_seed(a.seed)
 torch.manual_seed(a.seed)
 dev = torch.device("cuda" if torch.cuda.is_available() else "cpu")
@@ -44,6 +45,7 @@ os.makedirs(a.out, exist_ok=True)
 
 d = np.load(a.data)
 x_all, y_all, split, fold = d["images"], d["y"], d["split"], d["fold"]
+# train on every trainval fold except the validation fold; the test fold is only read with --predict-test
 tr = np.where((split == "trainval") & (fold != a.val_fold))[0]
 va = np.where((split == "trainval") & (fold == a.val_fold))[0]
 te = np.where(split == "test")[0]
@@ -51,28 +53,35 @@ if a.quick:
     tr, va, te, a.epochs = tr[:256], va[:128], te[:128], 1
 x_gpu = torch.from_numpy(x_all).to(dev)
 y_gpu = torch.from_numpy(y_all).to(dev)
+# ImageNet statistics, because the backbones are ImageNet-pretrained
 mean = torch.tensor([0.485, 0.456, 0.406], device=dev).view(1, 3, 1, 1)
 std = torch.tensor([0.229, 0.224, 0.225], device=dev).view(1, 3, 1, 1)
 
 
+# the whole dataset sits on the GPU; augmentation is done on each batch
 def prep(idx, train):
     x = x_gpu[idx].float().div(255).unsqueeze(1)
     if train:
         n = x.shape[0]
+        # random horizontal flip
         flip = torch.rand(n, device=dev) < 0.5
         x = torch.where(flip.view(-1, 1, 1, 1), x.flip(3), x)
+        # random rotation of up to 10 degrees
         ang = (torch.rand(n, device=dev) * 20 - 10) * math.pi / 180
         c, s = torch.cos(ang), torch.sin(ang)
         theta = torch.stack([torch.stack([c, -s, torch.zeros_like(c)], 1), torch.stack([s, c, torch.zeros_like(c)], 1)], 1)
         x = F.grid_sample(x, F.affine_grid(theta, x.shape, align_corners=False), align_corners=False, padding_mode="zeros")
+        # random brightness and contrast, up to 20 % each
         b = 1 + (torch.rand(n, 1, 1, 1, device=dev) * 0.4 - 0.2)
         k = 1 + (torch.rand(n, 1, 1, 1, device=dev) * 0.4 - 0.2)
         m = x.mean(dim=(1, 2, 3), keepdim=True)
         x = ((x - m) * k + m) * b
         x = x.clamp(0, 1)
+    # grayscale to 3 channels, then normalise
     return (x.repeat(1, 3, 1, 1) - mean) / std
 
 
+# the models differ in the backbone and in the last layers, which output the 4 classes
 def build(name):
     w = None if a.no_pretrained else "DEFAULT"
     if name == "efficientnet_b0":
@@ -100,6 +109,7 @@ def build(name):
     return m
 
 
+# only the parameters that are not frozen are optimised; cosine learning-rate decay over all steps
 model = build(a.model).to(dev)
 params = [q for q in model.parameters() if q.requires_grad]
 opt = torch.optim.AdamW(params, lr=a.lr, weight_decay=a.weight_decay)
@@ -109,6 +119,7 @@ scaler = torch.amp.GradScaler(enabled=dev.type == "cuda")
 
 
 @torch.no_grad()
+# class probabilities of the images in idx (evaluation mode, no augmentation)
 def predict(idx):
     model.eval()
     out = []
@@ -123,6 +134,7 @@ def metrics(prob, idx):
     return {"accuracy": float((pred == true).mean()), "macro_f1": float(f1_score(true, pred, average="macro"))}
 
 
+# keep the weights of the epoch with the best validation macro-F1; the test fold plays no part in this choice
 history, best, best_state = [], -1.0, None
 for ep in range(a.epochs):
     model.train()
@@ -148,6 +160,7 @@ for ep in range(a.epochs):
     if m["macro_f1"] > best:
         best, best_state = m["macro_f1"], {k: v.detach().clone() for k, v in model.state_dict().items()}
 
+# from here on the model is the best-validation epoch
 model.load_state_dict(best_state)
 val_prob = predict(va)
 result = {"args": vars(a), "history": history, "best_epoch": int(np.argmax([h["macro_f1"] for h in history])) + 1,

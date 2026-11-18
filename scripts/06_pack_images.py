@@ -12,11 +12,13 @@ from concurrent.futures import ThreadPoolExecutor
 
 root, manifest, out, budget = sys.argv[1], sys.argv[2], sys.argv[3], float(sys.argv[4])
 rows = [l.rstrip("\n").split("\t") for l in open(manifest)][1:]
+# written in chunks so that a stopped run can resume
 chunk = 2000
 prefix = out.replace(".npz", "_chunk")
 start = time.time()
 
 
+# grayscale, 224x224, bilinear: the preprocessing of the original project
 def load(r):
     im = Image.open(os.path.join(root, r[0])).convert("L").resize((224, 224), Image.BILINEAR)
     return np.asarray(im, dtype=np.uint8)
@@ -33,6 +35,7 @@ with ThreadPoolExecutor(12) as ex:
         np.save(name + ".tmp.npy", np.stack(list(ex.map(load, rows[k:k + chunk]))))
         os.replace(name + ".tmp.npy", name)
 
+# one file with the images and, per image, label (index into classes), split, fold, group and path
 images = np.concatenate([np.load("%s_%03d.npy" % (prefix, k // chunk)) for k in range(0, len(rows), chunk)])
 classes = sorted({r[2] for r in rows})
 np.savez(out, images=images,

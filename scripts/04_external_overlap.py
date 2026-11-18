@@ -17,10 +17,12 @@ epaths, _, eh, ecls = read_hashes(ext)
 tz = load_thumbs(tpre, len(tpaths))
 ez = load_thumbs(epre, len(epaths))
 
+# highest correlation of each external image with any training image
 best = np.zeros(len(epaths), dtype=np.float32)
 for s in range(0, len(epaths), 1000):
     best[s:s + 1000] = (ez[s:s + 1000] @ tz.T).max(axis=1)
 
+# keep = 1 when no training image is similar enough to the external one
 with open(out, "w") as fo:
     fo.write("path\tclass\tnearest_hash_distance\tmax_correlation\tkeep\n")
     for i in range(len(epaths)):

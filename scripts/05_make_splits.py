@@ -14,6 +14,7 @@ rows = [l.rstrip("\n").split("\t") for l in open(groups_file)]
 head, rows = rows[0], rows[1:]
 col = {h: k for k, h in enumerate(head)}
 
+# a group with more than one class cannot be given one label: it is excluded and listed
 classes = {}
 for r in rows:
     classes.setdefault(r[col["group"]], set()).add(r[col["class"]])
@@ -31,8 +32,10 @@ g = np.array([r[col["group"]] for r in kept])
 split = np.array(["trainval"] * len(kept), dtype=object)
 fold = np.full(len(kept), -1)
 
+# one fold of 7 is the test set (about 14 % of the data)
 _, test_idx = next(StratifiedGroupKFold(n_splits=7, shuffle=True, random_state=seed).split(y, y, g))
 split[test_idx] = "test"
+# the other six folds are for cross-validation; no group is in two folds
 rest = np.where(split == "trainval")[0]
 for k, (_, val) in enumerate(StratifiedGroupKFold(n_splits=6, shuffle=True, random_state=seed).split(rest, y[rest], g[rest])):
     fold[rest[val]] = k

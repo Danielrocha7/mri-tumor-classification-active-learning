@@ -57,10 +57,22 @@ def auc(arm, seed):
     return float(_trapz(f, n) / (n[-1] - n[0]))
 
 
+def end_labels(axis, items, gap):
+    # items: (y, text, colour); spread the labels so that they do not overlap at the right edge of the curves
+    items = sorted(items)
+    ys = [i[0] for i in items]
+    for k in range(1, len(ys)):
+        ys[k] = max(ys[k], ys[k - 1] + gap)
+    shift = (np.mean([i[0] for i in items]) - np.mean(ys))
+    for (y0, t, c), y in zip(items, ys):
+        axis.text(1215, y + shift, t, color=c, fontsize=7, va="center")
+
+
 strategies = [a for a in ARMS[:6] if a in runs]
 logging.getLogger("matplotlib.font_manager").setLevel(logging.ERROR)  # Arial is not installed everywhere
 plt.rcParams["font.family"] = ["Arial", "DejaVu Sans"]
 fig, ax = plt.subplots(1, 3, figsize=(11, 3.6))
+lab0, lab1 = [], []
 for a in strategies + (["original"] if "original" in runs else []):
     ss = sorted(runs[a])
     ns = curve(a, ss[0])[0]
@@ -68,12 +80,17 @@ for a in strategies + (["original"] if "original" in runs else []):
     f = np.array([curve(a, s)[1] for s in ok])
     ax[0].plot(ns, f.mean(0), "--" if a == "original" else "-", color=colour[a], lw=1.6)
     ax[0].fill_between(ns, f.min(0), f.max(0), color=colour[a], alpha=0.12, lw=0)
-    ax[0].text(ns[-1] + 10, f.mean(0)[-1], name[a], color=colour[a], fontsize=7, va="center")
+    if a == "original":
+        ax[0].text(ns[-1] + 10, f.mean(0)[-1], name[a], color=colour[a], fontsize=7, va="center")
+    else:
+        lab0.append((f.mean(0)[-1], name[a], colour[a]))
     if a not in ("original", "random") and "random" in runs:
         d = np.array([curve(a, s)[1] - curve("random", s)[1] for s in ok if s in runs["random"]])
         if len(d):
             ax[1].plot(ns, d.mean(0), color=colour[a], lw=1.6)
-            ax[1].text(ns[-1] + 10, d.mean(0)[-1], name[a], color=colour[a], fontsize=7, va="center")
+            lab1.append((d.mean(0)[-1], name[a], colour[a]))
+end_labels(ax[0], lab0, 0.017)
+end_labels(ax[1], lab1, 0.0035)
 ax[0].set_xlabel("Labelled images"); ax[0].set_ylabel("Validation macro-F1")
 ax[0].set_title("(a) Learning curves (mean, range of seeds)", fontsize=9, loc="left")
 ax[1].axhline(0, color="#999999", lw=0.8)

@@ -26,7 +26,15 @@ function applyI18n() {
   setLoginMode(state.mode);
 }
 function errText(code) { return t("err." + code); }
-const fmt = (x) => Number(x).toLocaleString(state.lang === "pt" ? "pt-PT" : "en-GB", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+// Two decimals; values that would round to 1.00 or 0.00 are shown as "> 0.99" and "< 0.01" so a softmax output is not read as certainty.
+const fmt = (x) => {
+  x = Number(x);
+  const loc = state.lang === "pt" ? "pt-PT" : "en-GB";
+  const two = (v) => v.toLocaleString(loc, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  if (x >= 0.995) return "> " + two(0.99);
+  if (x > 0 && x < 0.005) return "< " + two(0.01);
+  return two(x);
+};
 const cname = (c) => t("class." + c);
 
 // ---------- small helpers ----------

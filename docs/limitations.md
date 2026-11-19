@@ -1,13 +1,13 @@
 # Limitations and possible improvements
 
-Running list, updated as the work goes on. It becomes the limitations section of the README at the end. The original work was a first-year master's group project; several limits below come from that starting point.
+Final list; the README carries a short summary. The original work was a first-year master's group project; several limits below come from that starting point.
 
 ## From the original work
 
 - Evaluation: test set used to choose the checkpoint, no validation set, near-duplicates across partitions, index mismatch between the saved labelled set and the full folder. See `evaluation_audit.md`.
 - Data: licence and provenance of the dataset are unknown, no patient identifiers, no scanner or sequence metadata.
 
-## Of this project (to fill in)
+## Of this project
 
 - Near-duplicate detection (pixel correlation of 64x64 thumbnails) is not invariant to flips, rotations or crops, so some duplicates may remain.
 - Patient-level splitting is impossible without patient IDs; group-level splitting is only a proxy.
@@ -17,3 +17,11 @@ Running list, updated as the work goes on. It becomes the limitations section of
 - Active learning results rest on three seeds, one backbone and one training recipe; the better strategies are not separated, and the ranking could change with another setup. Test and external probabilities exist at four budgets only. See `active_learning_results.md`.
 - The checkpoint of every active-learning round is chosen on a 400-image validation subset, which is noisy at the small differences between strategies.
 - The original-protocol arm differs from the random baseline in model, training and starting set, so its comparison with the other arms does not isolate the query strategy.
+
+## Left undone
+
+- The original pipeline was not re-run: its code is not republished here, so no baseline of the original code under the old protocol exists beyond what the audit documents.
+- `environment.yml` pins the versions used but has not been built from scratch with conda.
+- The app reads its settings from `.env`, not from `configs/config.yaml`.
+- The external set has no image hashes, so retraining cannot block its images; only test-split images are blocked by hash.
+- On the author's Windows machine Smart App Control blocked a compiled dependency (Pillow), so the app was run under WSL with the browser runner (`app/serve.py`); the native window (`python -m app.main`) and `run_windows.bat` were not tested.

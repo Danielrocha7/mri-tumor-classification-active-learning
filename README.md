@@ -4,13 +4,13 @@ Four-class classification of brain MRI slices (glioma, meningioma, pituitary tum
 
 This repository continues a group project from the Human-Centric Artificial Intelligence course (University of Coimbra, 2025). The original code is not included in this repository and is credited [below](#credits). Everything here is new work by Daniel Rocha, aimed at a sounder evaluation and a reproducible codebase.
 
-> **Status (2026-11-18):** leak-free splits, baselines, and internal and external evaluation are done (see [Results](#results)). Active learning is done too (see [Results](#results)). The final evaluation and the application are still to do; see the roadmap.
+> **Status (2026-11-19):** finished portfolio project. Leak-free splits, baselines, internal and external evaluation, an active-learning study and a small application are done; see [Results](#results), [Application](#application) and [Limitations](#limitations).
 
 > **Not a clinical tool.** This is a learning and portfolio project. It must not be used to diagnose, triage or make any medical decision.
 
 ## Contents
 
-[Original work and what is new](#original-work-and-what-is-new) · [Repository structure](#repository-structure) · [Application](#application) · [Environment](#environment) · [Data](#data) · [Roadmap](#roadmap) · [Results](#results) · [Reproducibility](#reproducibility) · [License](#license) · [Credits](#credits)
+[Original work and what is new](#original-work-and-what-is-new) · [Repository structure](#repository-structure) · [Application](#application) · [Environment](#environment) · [Data](#data) · [Limitations](#limitations) · [Results](#results) · [Reproducibility](#reproducibility) · [License](#license) · [Credits](#credits)
 
 ## Original work and what is new
 
@@ -28,7 +28,7 @@ A first audit of the original project (2026-11-17, details and method in [`docs/
 - The best checkpoint and the early stopping were chosen on the test set.
 - The labelled-set table (`treino_rotulado.csv`) and the retraining script read saved indices against the wrong list: 129 of the 596 labelled images are test images.
 
-What this repository changes is listed in the [roadmap](#roadmap) and tracked in [`docs/decisions.md`](docs/decisions.md). The original code is not republished here; the audit of what it did is in [`docs/evaluation_audit.md`](docs/evaluation_audit.md).
+What this repository changes is tracked in [`docs/decisions.md`](docs/decisions.md). The original code is not republished here; the audit of what it did is in [`docs/evaluation_audit.md`](docs/evaluation_audit.md).
 
 ## Repository structure
 
@@ -40,14 +40,12 @@ mri-tumor-classification-active-learning/
 ├── configs/           # seeds and parameters (config.yaml)
 ├── data/              # NOT tracked by Git (see data/README.md)
 ├── docs/              # decision log and evaluation notes
-├── scripts/           # numbered, flat scripts that run the pipeline step by step (planned)
-├── src/               # reusable code: splits, metrics, models, active learning (planned)
+├── scripts/           # numbered, flat scripts that run the pipeline step by step
+├── src/               # shared helpers
 ├── app/               # web interface in a window or in the browser, with its Python backend (app/README.md)
 ├── results/           # light outputs: supervised runs and active-learning predictions
-└── tests/             # checks for splits and metrics (planned)
+└── tests/             # checks for splits, active-learning isolation, the app backend and the weights download
 ```
-
-Folders marked as planned are created when they get their first file.
 
 ## Application
 
@@ -83,18 +81,15 @@ No image is stored in this repository. Where every piece of data comes from:
 
 The first dataset may combine earlier public datasets, which can put near-identical images on both sides of a split, so the splits group near-duplicates (`data/README.md`). The folder used by the original project (22,017 PNG images) is not known to match the Kaggle version (18,279 JPG images). Source, version, checks and the expected local layout are in [`data/README.md`](data/README.md). Nothing here is a clinical result.
 
-## Roadmap
+## Limitations
 
-Draft, in order of priority:
+The full list, with the reasoning, is in [`docs/limitations.md`](docs/limitations.md). The ones that matter most when reading the numbers:
 
-- [ ] Re-run the original pipeline and record the baseline metrics
-- [x] Check the dataset for near-duplicate images before splitting (group-aware splits in `splits/`)
-- [x] Use separate training, validation and test sets; choose checkpoints on validation only (supervised baselines)
-- [x] Report per-class recall and precision, the confusion matrix, and confidence intervals, not only accuracy (supervised models, internal test)
-- [x] Compare active learning with random sampling and with a fully supervised baseline (`docs/active_learning_results.md`)
-- [ ] Make the retraining loop unable to reach the test set
-- [ ] Application: hash passwords, keep the database out of the repository, move settings to the config file
-- [ ] Data download script, pinned environment, basic tests
+- The test and external scores are very high and the external set shares sources with the training data, so they say little about performance on a new scanner or hospital.
+- Group-aware splits are a proxy: without patient identifiers, images of one patient can still sit on both sides of a split.
+- The active-learning study is simulated (the labels already exist), uses three seeds and one backbone, and does not separate the better strategies.
+- In the app, the margin is a weak error detector and softmax outputs are not calibrated; the retraining check only guards against forgetting, not against poor generalisation.
+- Not a clinical tool. No prospective or clinical validation.
 
 ## Results
 

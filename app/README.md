@@ -14,7 +14,7 @@ A desktop-style app: a web interface (`frontend/`, HTML/CSS/JS) in a native wind
 
 1. Create the environment: `conda env create -f environment.yml`.
 2. Get the model weights. Either run `python -m app.weights`, which downloads the published weights from the GitHub release (`v1.0`, asset `best.pt`), checks their SHA-256 and installs them as version 1, or train your own (`scripts/07_train_supervised.py --save-weights`) and set `MRI_APP_BEST_PT` to the `best.pt` (or copy it to `~/.mri-classifier/models/v1.pt`).
-3. `python -m app.main` opens a native window. If that does not work on your machine (no GUI toolkit, or Windows blocks the pywebview dependencies), run `python app/serve.py` instead: it serves the same app on `127.0.0.1:8765` and opens it in the browser. Opening `frontend/index.html` as a plain file shows a demo with sample data.
+3. `python -m app.main` opens a native window. If that does not work on your machine (no GUI toolkit, or Windows blocks the pywebview dependencies), run `python app/serve.py` instead: it serves the same app on `127.0.0.1:8765` and opens it in the browser. On Windows, `run_windows.bat` tries the window first and falls back to the browser. Opening `frontend/index.html` as a plain file shows a demo with sample data.
 
 User data (database, uploaded images, model versions) live in `~/.mri-classifier` (or `MRI_APP_DATA`), never in the repository.
 

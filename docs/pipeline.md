@@ -1,6 +1,6 @@
 # Pipeline
 
-Working plan for the project. Each phase is ticked in the README roadmap when it is done and its outputs are committed. Methods listed here are the plan, not results.
+Working plan for the project. Kept as a record of the plan; the outcomes are in the other documents in this folder and in `results/`. Methods listed here are the plan, not results.
 
 ## Phase 1. Inventory
 

@@ -1,0 +1,287 @@
+[
+ {
+  "n_labelled": 60,
+  "train_seconds": 88.4,
+  "select_seconds": 25.8,
+  "labelled_per_class": [
+   16,
+   16,
+   13,
+   15
+  ],
+  "val_acc": 0.825,
+  "val_macro_f1": 0.8247809440794793,
+  "val_recall": [
+   0.8,
+   0.7446808510638298,
+   0.8487394957983193,
+   0.8878504672897196
+  ]
+ },
+ {
+  "n_labelled": 120,
+  "train_seconds": 85.6,
+  "select_seconds": 25.4,
+  "labelled_per_class": [
+   30,
+   47,
+   17,
+   26
+  ],
+  "val_acc": 0.89,
+  "val_macro_f1": 0.8882084719365052,
+  "val_recall": [
+   0.8625,
+   0.8723404255319149,
+   0.8823529411764706,
+   0.9345794392523364
+  ]
+ },
+ {
+  "n_labelled": 180,
+  "train_seconds": 85.6,
+  "select_seconds": 25.2,
+  "labelled_per_class": [
+   44,
+   63,
+   33,
+   40
+  ],
+  "val_acc": 0.9275,
+  "val_macro_f1": 0.9259583510930411,
+  "val_recall": [
+   0.9125,
+   0.8829787234042553,
+   0.9495798319327731,
+   0.9532710280373832
+  ]
+ },
+ {
+  "n_labelled": 240,
+  "train_seconds": 85.8,
+  "select_seconds": 25.2,
+  "labelled_per_class": [
+   71,
+   82,
+   40,
+   47
+  ],
+  "val_acc": 0.96,
+  "val_macro_f1": 0.9571932416757561,
+  "val_recall": [
+   0.9875,
+   0.8936170212765957,
+   0.9831932773109243,
+   0.9719626168224299
+  ]
+ },
+ {
+  "n_labelled": 300,
+  "train_seconds": 85.8,
+  "select_seconds": 25.1,
+  "labelled_per_class": [
+   80,
+   112,
+   47,
+   61
+  ],
+  "val_acc": 0.9475,
+  "val_macro_f1": 0.946627843857872,
+  "val_recall": [
+   0.95,
+   0.9148936170212766,
+   0.9411764705882353,
+   0.9813084112149533
+  ]
+ },
+ {
+  "n_labelled": 360,
+  "train_seconds": 85.7,
+  "select_seconds": 24.9,
+  "labelled_per_class": [
+   96,
+   132,
+   60,
+   72
+  ],
+  "val_acc": 0.98,
+  "val_macro_f1": 0.9794548240223346,
+  "val_recall": [
+   1.0,
+   0.9468085106382979,
+   0.9915966386554622,
+   0.9813084112149533
+  ]
+ },
+ {
+  "n_labelled": 420,
+  "train_seconds": 85.8,
+  "select_seconds": 24.9,
+  "labelled_per_class": [
+   106,
+   158,
+   76,
+   80
+  ],
+  "val_acc": 0.945,
+  "val_macro_f1": 0.9427115168757849,
+  "val_recall": [
+   0.925,
+   0.9787234042553191,
+   0.9831932773109243,
+   0.8878504672897196
+  ]
+ },
+ {
+  "n_labelled": 480,
+  "train_seconds": 85.9,
+  "select_seconds": 24.8,
+  "labelled_per_class": [
+   126,
+   166,
+   85,
+   103
+  ],
+  "val_acc": 0.975,
+  "val_macro_f1": 0.9731957282367703,
+  "val_recall": [
+   0.9375,
+   0.9680851063829787,
+   1.0,
+   0.9813084112149533
+  ]
+ },
+ {
+  "n_labelled": 540,
+  "train_seconds": 85.9,
+  "select_seconds": 24.7,
+  "labelled_per_class": [
+   145,
+   192,
+   88,
+   115
+  ],
+  "val_acc": 0.965,
+  "val_macro_f1": 0.9630466623151711,
+  "val_recall": [
+   0.9875,
+   0.8936170212765957,
+   0.9915966386554622,
+   0.9813084112149533
+  ]
+ },
+ {
+  "n_labelled": 600,
+  "train_seconds": 86.1,
+  "select_seconds": 24.7,
+  "labelled_per_class": [
+   150,
+   225,
+   101,
+   124
+  ],
+  "val_acc": 0.9875,
+  "val_macro_f1": 0.987740642755437,
+  "val_recall": [
+   1.0,
+   0.9680851063829787,
+   0.9831932773109243,
+   1.0
+  ]
+ },
+ {
+  "n_labelled": 720,
+  "train_seconds": 86.1,
+  "select_seconds": 24.4,
+  "labelled_per_class": [
+   173,
+   289,
+   124,
+   134
+  ],
+  "val_acc": 0.9825,
+  "val_macro_f1": 0.98257107976248,
+  "val_recall": [
+   1.0,
+   0.9574468085106383,
+   0.9915966386554622,
+   0.9813084112149533
+  ]
+ },
+ {
+  "n_labelled": 840,
+  "train_seconds": 85.9,
+  "select_seconds": 24.3,
+  "labelled_per_class": [
+   192,
+   346,
+   137,
+   165
+  ],
+  "val_acc": 0.9825,
+  "val_macro_f1": 0.9826424144648269,
+  "val_recall": [
+   1.0,
+   0.9574468085106383,
+   0.9915966386554622,
+   0.9813084112149533
+  ]
+ },
+ {
+  "n_labelled": 960,
+  "train_seconds": 86.0,
+  "select_seconds": 24.0,
+  "labelled_per_class": [
+   228,
+   379,
+   148,
+   205
+  ],
+  "val_acc": 0.9775,
+  "val_macro_f1": 0.9778016098591938,
+  "val_recall": [
+   1.0,
+   0.9361702127659575,
+   0.9915966386554622,
+   0.9813084112149533
+  ]
+ },
+ {
+  "n_labelled": 1080,
+  "train_seconds": 85.8,
+  "select_seconds": 23.3,
+  "labelled_per_class": [
+   262,
+   440,
+   160,
+   218
+  ],
+  "val_acc": 0.995,
+  "val_macro_f1": 0.995293434468788,
+  "val_recall": [
+   1.0,
+   0.9893617021276596,
+   0.9915966386554622,
+   1.0
+  ]
+ },
+ {
+  "n_labelled": 1200,
+  "train_seconds": 84.7,
+  "select_seconds": 0.0,
+  "labelled_per_class": [
+   279,
+   502,
+   180,
+   239
+  ],
+  "val_acc": 0.9975,
+  "val_macro_f1": 0.9976223963565736,
+  "val_recall": [
+   1.0,
+   1.0,
+   0.9915966386554622,
+   1.0
+  ]
+ }
+]

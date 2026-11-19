@@ -10,7 +10,7 @@ This repository continues a group project from the Human-Centric Artificial Inte
 
 ## Contents
 
-[Original work and what is new](#original-work-and-what-is-new) · [Repository structure](#repository-structure) · [Environment](#environment) · [Data](#data) · [Roadmap](#roadmap) · [Results](#results) · [Reproducibility](#reproducibility) · [License](#license) · [Credits](#credits)
+[Original work and what is new](#original-work-and-what-is-new) · [Repository structure](#repository-structure) · [Application](#application) · [Environment](#environment) · [Data](#data) · [Roadmap](#roadmap) · [Results](#results) · [Reproducibility](#reproducibility) · [License](#license) · [Credits](#credits)
 
 ## Original work and what is new
 
@@ -42,12 +42,24 @@ mri-tumor-classification-active-learning/
 ├── docs/              # decision log and evaluation notes
 ├── scripts/           # numbered, flat scripts that run the pipeline step by step (planned)
 ├── src/               # reusable code: splits, metrics, models, active learning (planned)
-├── app/               # desktop application (planned)
+├── app/               # web interface in a window or in the browser, with its Python backend (app/README.md)
 ├── results/           # light outputs: supervised runs and active-learning predictions
 └── tests/             # checks for splits and metrics (planned)
 ```
 
 Folders marked as planned are created when they get their first file.
+
+## Application
+
+A small app around the model: sign in, classify a slice, send the uncertain ones to a review queue, confirm the correct class, and fine-tune the model on the confirmed images. Details, limits and how to run it are in [`app/README.md`](app/README.md).
+
+![Prediction view: one slice, the four class scores and the margin](docs/screens/prediction.png)
+
+![Model support view: the review queue, lowest margin first, with the retraining status](docs/screens/support.png)
+
+![History view: saved predictions with status and model version](docs/screens/history.png)
+
+The screenshots show four images from the public dataset's test folder (one per class), only displayed. Nothing from the test folder is used for training. The margin is a weak error detector (most of the model's errors have a high margin), so the review queue is a help, not a safety net. The app is a research prototype.
 
 ## Environment
 

@@ -3,16 +3,20 @@ channels:
   - pytorch
   - conda-forge
 dependencies:
+  # numpy, pandas, scikit-learn, matplotlib and pillow are pinned to the versions used to run scripts 14 and 15 and
+  # the tests (on Python 3.10); this file was not yet built with conda on the target machine.
+  # torch and torchvision (scripts 07 and 13) ran on Kaggle and their versions were not recorded.
   - python=3.11
   - pip
   - pytorch
   - torchvision
-  - numpy
-  - pandas
-  - scikit-learn
-  - matplotlib
-  - pillow
+  - numpy=2.2.6
+  - pandas=2.3.3
+  - scikit-learn=1.7.2
+  - matplotlib-base=3.10.9
+  - pillow=12.3.0
   - pyyaml
+  - pytest
   - ipykernel
   - jupyterlab
   - pip:

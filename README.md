@@ -133,7 +133,13 @@ Every strategy beat random sampling in all three seeds from 600 images on. The f
 ## Reproducibility
 
 - **Seeds:** fixed through the value in `configs/config.yaml`.
-- **Versions:** `environment.yml`; exact versions to be added.
+- **Versions:** `environment.yml`. The analysis libraries are pinned; torch and torchvision (used on Kaggle) are not, because their versions were not recorded. The file has not been built with conda yet.
+- **Active learning, step by step** (the training runs need a GPU; they were run on a Kaggle T4, 22 to 32 min per strategy and seed):
+  1. Pack the images with `scripts/06_pack_images.py` (Kaggle set and the external set, see `data/README.md`).
+  2. `python scripts/13_active_learning.py --help` lists the arms (random, entropy, margin, mcdropout, coreset, badge, original, full), the seed and the paths; a run writes its folder under the output directory and can be started again, it resumes from the saved labelled order.
+  3. `python scripts/15_make_labels.py splits/kaggle_splits_seed42.tsv splits/external_nickparvar_c095_manifest.tsv labels.npz` writes the labels file (identical to `results/active_learning/labels.npz`).
+  4. `python scripts/14_active_learning_analysis.py results/active_learning results/active_learning/labels.npz docs/figures` recomputes the figure and the tables without images or a GPU.
+- **Tests:** `pytest tests/`. `test_active_learning_isolation.py` checks that every labelled set comes from the pool only (never from the validation fold or the test fold); `test_splits.py` needs the local curation files and is skipped without them.
 - **Data:** source and checks in `data/README.md`.
 - **Decisions:** logged in `docs/decisions.md`.
 - **Note:** small differences between machines (CPU/GPU, library versions) can remain because of non-deterministic training operations.

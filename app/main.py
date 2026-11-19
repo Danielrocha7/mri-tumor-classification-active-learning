@@ -7,6 +7,21 @@ import sys
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, os.path.dirname(HERE))  # repository root, so that `app` is importable when this file is run directly
 
+
+
+def load_env_file(path):
+    """Reads KEY=VALUE lines of a .env file into os.environ (existing variables win). No dependency needed."""
+    if not os.path.exists(path):
+        return
+    for line in open(path, encoding="utf-8"):
+        line = line.strip()
+        if line and not line.startswith("#") and "=" in line:
+            k, v = line.split("=", 1)
+            os.environ.setdefault(k.strip(), v.strip().strip('"').strip("'"))
+
+
+load_env_file(os.path.join(os.path.dirname(HERE), ".env"))
+
 import webview  # noqa: E402
 
 from app.api import Api  # noqa: E402

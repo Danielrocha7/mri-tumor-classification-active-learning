@@ -105,6 +105,9 @@ def main():
     best = os.environ.get("MRI_APP_BEST_PT")
     if best and os.path.exists(best) and trainer.latest(settings)[1] is None:
         trainer.install_initial(settings, best)
+    if trainer.latest(settings)[1] is None:
+        print("No model weights yet. Run `python -m app.weights` to download the published weights, "
+              "or set MRI_APP_BEST_PT to your own best.pt (see app/README.md).", file=sys.stderr)
     server, _ = make_server(Api(settings), a.port)
     url = "http://127.0.0.1:%d/" % server.server_address[1]
     print("Brain MRI Classifier running at", url, "(Ctrl+C to stop)")

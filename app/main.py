@@ -26,6 +26,9 @@ def main():
     best = os.environ.get("MRI_APP_BEST_PT")
     if best and os.path.exists(best) and trainer.latest(settings)[1] is None:
         trainer.install_initial(settings, best)
+    if trainer.latest(settings)[1] is None:
+        print("No model weights yet. Run `python -m app.weights` to download the published weights, "
+              "or set MRI_APP_BEST_PT to your own best.pt (see app/README.md).", file=sys.stderr)
     api = Api(settings)
     webview.create_window("Brain MRI Classifier", os.path.join(HERE, "frontend", "index.html"), js_api=api,
                           width=1280, height=800, min_size=(1000, 640))

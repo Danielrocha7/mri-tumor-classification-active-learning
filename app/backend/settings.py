@@ -12,9 +12,12 @@ def default_data_dir():
 class Settings:
     data_dir: str = field(default_factory=default_data_dir)
     retrain_min: int = 20           # reviewed images needed before a retraining round
-    margin_threshold: float = 0.20  # below this margin an image counts as uncertain (to be set from validation data)
+    margin_threshold: float = 0.80  # below this margin an image counts as uncertain (results/margin_threshold.txt: validation, seeds 42-44)
     blocked_manifest: str = ""      # split manifest (tsv with md5 and split columns); its test and external images never train
     blocked_splits: tuple = ("test", "external")
+    ft_epochs: int = 5              # fine-tuning on the reviewed images of one round
+    ft_lr: float = 1e-5             # small, so the model does not forget what best.pt learned
+    max_forget_drop: float = 0.05   # a new model is not promoted if accuracy on earlier rounds' images drops more than this
 
     @property
     def db_path(self):

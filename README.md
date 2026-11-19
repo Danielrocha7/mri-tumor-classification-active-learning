@@ -132,7 +132,7 @@ Every strategy beat random sampling in all three seeds from 600 images on. The f
 ## Reproducibility
 
 - **Seeds:** fixed through the value in `configs/config.yaml`.
-- **Versions:** `environment.yml`. The analysis libraries are pinned; torch and torchvision (used on Kaggle) are not, because their versions were not recorded. The file has not been built with conda yet.
+- **Versions:** `environment.yml`. The analysis libraries are pinned to the versions used here; torch and torchvision are pinned to the Kaggle versions read on 2026-11-19, a few days after the runs. The file has not been built with conda yet.
 - **Active learning, step by step** (the training runs need a GPU; they were run on a Kaggle T4, 22 to 32 min per strategy and seed):
   1. Pack the images with `scripts/06_pack_images.py` (Kaggle set and the external set, see `data/README.md`).
   2. `python scripts/13_active_learning.py --help` lists the arms (random, entropy, margin, mcdropout, coreset, badge, original, full), the seed and the paths; a run writes its folder under the output directory and can be started again, it resumes from the saved labelled order.

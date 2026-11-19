@@ -1,16 +1,17 @@
 """Starts the desktop window: a web front end (app/frontend) in a native window, talking to app.api.Api.
-Usage: python -m app.main   (from the repository root, in the conda environment)
+Usage: open this file in VS Code and press Run, or `python app/main.py` / `python -m app.main` from the repository root.
 Weights: models/v1.pt in the data folder. If it is missing, copy the file or set MRI_APP_BEST_PT to the best.pt from Kaggle."""
 import os
-import shutil
-
-import webview
-
-from .api import Api
-from .backend import trainer
-from .backend.settings import Settings
+import sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
+sys.path.insert(0, os.path.dirname(HERE))  # repository root, so that `app` is importable when this file is run directly
+
+import webview  # noqa: E402
+
+from app.api import Api  # noqa: E402
+from app.backend import trainer  # noqa: E402
+from app.backend.settings import Settings  # noqa: E402
 
 
 def main():

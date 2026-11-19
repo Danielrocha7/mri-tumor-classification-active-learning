@@ -28,6 +28,17 @@ data/
 
 Until a download script exists, download the dataset from the Kaggle page above (a Kaggle account is required) and place the class folders as shown.
 
+## Check that your copy is the same set
+
+The images are not in this repository, but the manifests are: `splits/kaggle_splits_seed42.tsv` lists every image of the Kaggle set used here (path, MD5, class, group, split, fold), and `splits/external_nickparvar_c095_manifest.tsv` lists the external set (it has no MD5, so only the presence of each file is checked). Because the Kaggle page now describes a different set (18,279 JPG, against 22,017 PNG here), run this before anything else:
+
+```
+python scripts/17_check_data.py data/raw/kaggle_brain_tumour_classification splits/kaggle_splits_seed42.tsv splits/excluded_label_conflicts.tsv
+python scripts/17_check_data.py data/raw/nickparvar splits/external_nickparvar_c095_manifest.tsv
+```
+
+It prints how many files match, are missing or differ, and how many image files the manifest does not list. It exits with 1 if any file is missing or different. Files that the manifest does not list are only reported: for the external set that is expected, because the manifest keeps only the images without a near-twin in the training data. If files are missing or different, the splits and the published numbers do not apply to your copy.
+
 ## External test candidate
 
 | Field | Value |

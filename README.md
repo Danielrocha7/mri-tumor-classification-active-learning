@@ -155,8 +155,8 @@ Every strategy beat random sampling in all three seeds from 600 images on. The f
   3. `python scripts/15_make_labels.py splits/kaggle_splits_seed42.tsv splits/external_nickparvar_c095_manifest.tsv labels.npz` writes the labels file (identical to `results/active_learning/labels.npz`).
   4. `python scripts/14_active_learning_analysis.py results/active_learning results/active_learning/labels.npz docs/figures` recomputes the figure and the tables without images or a GPU.
 - **Weights for the app:** asset `best.pt` of the release `v1.0` (SHA-256 `33e280ce1dcba71a9111743b1905ab7b8838dcbf436912edfa8090c553d7c39d`). `python -m app.weights` downloads it, checks the hash and installs it; see `app/README.md`. The training data's license is unknown (`data/README.md`).
-- **Tests:** `pytest tests/`. `test_active_learning_isolation.py` checks that every labelled set comes from the pool only (never from the validation fold or the test fold); `test_splits.py` needs the local curation files and is skipped without them.
-- **Data:** source and checks in `data/README.md`.
+- **Tests:** `pytest tests/`. `test_check_data.py` tests the data check on a tiny fake folder. `test_active_learning_isolation.py` checks that every labelled set comes from the pool only (never from the validation fold or the test fold); `test_splits.py` needs the local curation files and is skipped without them.
+- **Data:** the images are not in the repository. Source and checks in `data/README.md`; `scripts/17_check_data.py` compares your download with the manifests in `splits/` (on the author's copy all 21,751 Kaggle files match by MD5 and all 2,180 external files are present).
 - **Decisions:** logged in `docs/decisions.md`.
 - **Note:** small differences between machines (CPU/GPU, library versions) can remain because of non-deterministic training operations.
 

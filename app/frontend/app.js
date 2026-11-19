@@ -359,13 +359,32 @@ function bind() {
   window.addEventListener("resize", placeInk);
 }
 
+// Same methods as app/api.py, called over HTTP when the page is served by app/serve.py
+function httpApi() {
+  const token = (document.querySelector('meta[name="app-token"]') || {}).content || "";
+  return new Proxy({}, { get: (_, name) => name === "then" ? undefined : async (...args) => {  // "then" must stay undefined, or await/resolve treats the proxy as a promise
+    const r = await fetch("api/" + name, { method: "POST", headers: { "X-App-Token": token, "Content-Type": "application/json" }, body: JSON.stringify({ args }) });
+    return r.json();
+  } });
+}
+
 function waitForApi() {
   return new Promise((resolve) => {
     if (window.pywebview && window.pywebview.api) return resolve(window.pywebview.api);
     let done = false;
-    window.addEventListener("pywebviewready", () => { if (!done) { done = true; resolve(window.pywebview.api); } });
-    // opened in a plain browser: use the demo data
-    setTimeout(() => { if (!done) { done = true; const s = document.createElement("script"); s.src = "mock.js"; s.onload = () => { state.demo = true; resolve(window.MockApi); }; document.head.appendChild(s); } }, 700);
+    const finish = (a, demo) => { if (!done) { done = true; state.demo = !!demo; resolve(a); } };
+    window.addEventListener("pywebviewready", () => finish(window.pywebview.api));
+    // served by app/serve.py: the page carries a token and the server answers ping
+    setTimeout(async () => {
+      if (done) return;
+      if (document.querySelector('meta[name="app-token"]')) {
+        const a = httpApi();
+        try { if ((await a.ping()).ok) return finish(a); } catch (e) {}
+      }
+      // opened as a plain file: use the demo data
+      if (done) return;
+      const s = document.createElement("script"); s.src = "mock.js"; s.onload = () => finish(window.MockApi, true); document.head.appendChild(s);
+    }, 400);
   });
 }
 

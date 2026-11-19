@@ -14,7 +14,7 @@ A desktop-style app: a web interface (`frontend/`, HTML/CSS/JS) in a native wind
 
 1. Create the environment: `conda env create -f environment.yml`.
 2. Put the trained weights in place. Either set `MRI_APP_BEST_PT` to the `best.pt` trained on Kaggle (`scripts/07_train_supervised.py --save-weights`), or copy it to `~/.mri-classifier/models/v1.pt`.
-3. Run `python app/main.py` (in VS Code: open `app/main.py` and press Run) or `python -m app.main` from the repository root. Without pywebview (for example in a browser) `frontend/index.html` opens in demo mode with sample data.
+3. `python -m app.main`. Without pywebview (for example in a browser) `frontend/index.html` opens in demo mode with sample data.
 
 User data (database, uploaded images, model versions) live in `~/.mri-classifier` (or `MRI_APP_DATA`), never in the repository.
 

@@ -1,35 +1,25 @@
 """Starts the desktop window: a web front end (app/frontend) in a native window, talking to app.api.Api.
 Usage: open this file in VS Code and press Run, or `python app/main.py` / `python -m app.main` from the repository root.
-Weights: models/v1.pt in the data folder. If it is missing, copy the file or set MRI_APP_BEST_PT to the best.pt from Kaggle."""
+If the native window does not work on your machine (no GUI toolkit, or Windows blocks its DLLs), use app/serve.py,
+which shows the same app in the browser.
+Weights: models/v1.pt in the data folder. If it is missing, copy the file or set MRI_APP_BEST_PT (in .env) to the best.pt from Kaggle."""
 import os
 import sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, os.path.dirname(HERE))  # repository root, so that `app` is importable when this file is run directly
 
-
-
-def load_env_file(path):
-    """Reads KEY=VALUE lines of a .env file into os.environ (existing variables win). No dependency needed."""
-    if not os.path.exists(path):
-        return
-    for line in open(path, encoding="utf-8"):
-        line = line.strip()
-        if line and not line.startswith("#") and "=" in line:
-            k, v = line.split("=", 1)
-            os.environ.setdefault(k.strip(), v.strip().strip('"').strip("'"))
-
+from app.envfile import load_env_file  # noqa: E402
 
 load_env_file(os.path.join(os.path.dirname(HERE), ".env"))
 
-import webview  # noqa: E402
-
-from app.api import Api  # noqa: E402
-from app.backend import trainer  # noqa: E402
-from app.backend.settings import Settings  # noqa: E402
-
 
 def main():
+    import webview
+    from app.api import Api
+    from app.backend import trainer
+    from app.backend.settings import Settings
+
     settings = Settings()
     settings.blocked_manifest = os.environ.get("MRI_APP_MANIFEST") or os.path.join(HERE, "..", "splits", "kaggle_splits_seed42.tsv")
     settings.ensure_dirs()

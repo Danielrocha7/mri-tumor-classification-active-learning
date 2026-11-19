@@ -163,4 +163,6 @@ The code is released under the [MIT license](LICENSE) (Copyright 2026 Daniel Roc
 
 Original group project, Human-Centric Artificial Intelligence, University of Coimbra, 2025: João Pedro Ferreira, João Frederico Lopes and Daniel Rocha. 
 
+The screenshots in `docs/screens/` show four slices from the [Brain Tumor MRI Dataset](https://www.kaggle.com/datasets/masoudnickparvar/brain-tumor-mri-dataset) by Masoud Nickparvar (CC BY 4.0; combination of figshare, SARTAJ and Br35H), scaled but not otherwise changed.
+
 Maintained by Daniel Rocha.

@@ -1,0 +1,183 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Brain MRI Classifier</title>
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- ============ Sign in ============ -->
+<div id="login" class="login" hidden>
+  <div class="login-left">
+    <form id="login-form" class="login-form" novalidate>
+      <div class="brand brand-lg"><span class="logo" data-logo></span><span class="brand-name" data-i18n="app.title"></span></div>
+      <h1 data-i18n="login.headline"></h1>
+      <p class="lead" data-i18n="login.lead"></p>
+      <label for="l-user" data-i18n="login.username"></label>
+      <input id="l-user" class="input" type="text" autocomplete="username" spellcheck="false">
+      <label for="l-pass" data-i18n="login.password"></label>
+      <input id="l-pass" class="input" type="password" autocomplete="current-password">
+      <p id="login-error" class="form-error" role="alert" hidden></p>
+      <button id="login-submit" class="btn btn-primary btn-lg" type="submit"><span class="btn-label" data-i18n="login.signin"></span></button>
+      <p class="switch"><span id="login-switch-q" data-i18n="login.noaccount"></span> <button id="login-switch" type="button" class="link" data-i18n="login.create"></button></p>
+      <div class="login-tools">
+        <div class="seg" role="group" aria-label="Language"><button type="button" data-lang="en">EN</button><button type="button" data-lang="pt">PT</button></div>
+        <button type="button" class="icon-btn" data-theme-toggle></button>
+      </div>
+    </form>
+  </div>
+  <div class="login-art" id="login-art" aria-hidden="true"></div>
+</div>
+
+<!-- ============ Application ============ -->
+<div id="app" class="app" hidden>
+  <header class="topbar">
+    <div class="brand"><span class="logo" data-logo></span><span class="brand-name" data-i18n="app.title"></span></div>
+    <nav class="tabs" role="tablist" aria-label="Main">
+      <button class="tab" role="tab" data-view="predict" aria-selected="true"><span data-i18n="tab.predict"></span></button>
+      <button class="tab" role="tab" data-view="support" aria-selected="false"><span data-i18n="tab.support"></span><span id="badge" class="badge" hidden>0</span></button>
+      <button class="tab" role="tab" data-view="history" aria-selected="false"><span data-i18n="tab.history"></span></button>
+      <span class="tab-ink" aria-hidden="true"></span>
+    </nav>
+    <div class="top-right">
+      <div class="seg" role="group" aria-label="Language"><button type="button" data-lang="en">EN</button><button type="button" data-lang="pt">PT</button></div>
+      <button type="button" class="icon-btn" data-theme-toggle></button>
+      <button type="button" class="icon-btn" id="about-btn" data-i18n-aria="about.open" data-icon="info"></button>
+      <span class="user"><span class="avatar" data-icon="user"></span><span id="username"></span></span>
+      <button type="button" class="icon-btn" id="logout-btn" data-i18n-aria="nav.logout" data-icon="logout"></button>
+    </div>
+  </header>
+
+  <main class="main">
+    <!-- Prediction -->
+    <section id="view-predict" class="view" data-active>
+      <div class="split split-predict">
+        <section class="card">
+          <div class="card-head"><h2 data-i18n="predict.image"></h2><span id="file-name" class="muted small"></span></div>
+          <div id="drop" class="drop" tabindex="0" role="button" data-i18n-aria="predict.drop_aria">
+            <div class="drop-empty">
+              <span class="drop-icon" data-icon="upload"></span>
+              <strong data-i18n="predict.drop_title"></strong>
+              <span class="muted small" data-i18n="predict.drop_hint"></span>
+            </div>
+            <img id="preview" alt="" hidden>
+          </div>
+          <input id="file" type="file" accept="image/png,image/jpeg" hidden>
+          <div class="row gap">
+            <button id="choose" class="btn" type="button"><span data-icon="upload"></span><span class="btn-label" data-i18n="predict.choose"></span></button>
+            <button id="run" class="btn btn-primary" type="button" disabled><span class="btn-label" data-i18n="predict.run"></span></button>
+          </div>
+          <p id="predict-error" class="form-error" role="alert" hidden></p>
+        </section>
+
+        <section class="card">
+          <div class="card-head"><h2 data-i18n="predict.result"></h2><span id="mv-chip" class="chip" hidden></span></div>
+          <div id="result-empty" class="empty">
+            <span class="empty-icon" data-icon="brain"></span>
+            <p data-i18n="predict.empty"></p>
+          </div>
+          <div id="result" hidden>
+            <div class="verdict"><span id="r-dot" class="dot dot-lg"></span><span id="r-label" class="verdict-label"></span></div>
+            <p class="muted small" data-i18n="predict.highest"></p>
+            <h3 class="h3" data-i18n="predict.probs"></h3>
+            <div id="r-bars" class="bars"></div>
+            <div id="r-note" class="note"></div>
+            <div class="row gap">
+              <button id="r-review" class="btn btn-primary" type="button"><span class="btn-label" data-i18n="predict.review"></span></button>
+              <button id="r-save" class="btn" type="button"><span class="btn-label" data-i18n="predict.save"></span></button>
+            </div>
+            <p class="muted small mt" data-i18n="predict.softmax"></p>
+          </div>
+        </section>
+      </div>
+    </section>
+
+    <!-- Model support -->
+    <section id="view-support" class="view" hidden>
+      <div class="page-head">
+        <div><h1 data-i18n="support.title"></h1><p class="muted" data-i18n="support.sub"></p></div>
+        <div class="progress-box">
+          <div class="between small"><strong data-i18n="support.progress"></strong><span id="progress-text" class="muted"></span></div>
+          <div class="track"><div id="progress-fill" class="fill"></div></div>
+        </div>
+      </div>
+      <div class="split split-support">
+        <section class="card" id="sup-image-card">
+          <div class="between"><strong id="sup-count" class="small"></strong><span id="sup-margin" class="muted small"></span></div>
+          <div class="img-frame"><img id="sup-img" alt="" hidden><div id="sup-img-load" class="muted small">…</div></div>
+          <div class="between mt-s"><span id="sup-name" class="muted small"></span>
+            <span class="row gap-s"><button id="sup-prev" class="btn btn-icon" type="button" data-i18n-aria="support.prev" data-icon="left"></button><button id="sup-next" class="btn btn-icon" type="button" data-i18n-aria="support.next" data-icon="right"></button></span></div>
+        </section>
+        <section class="card" id="sup-decide-card">
+          <div id="sup-empty" class="empty" hidden><span class="empty-icon" data-icon="check"></span><p data-i18n="support.empty"></p></div>
+          <div id="sup-body">
+            <h2 data-i18n="support.suggestion"></h2>
+            <div class="verdict verdict-md"><span id="s-dot" class="dot"></span><span id="s-label" class="verdict-label"></span><span class="muted small" data-i18n="support.unverified"></span></div>
+            <div id="s-bars" class="bars"></div>
+            <button id="s-confirm" class="btn btn-primary btn-block mt" type="button"><span class="btn-label" data-i18n="support.confirm"></span></button>
+            <hr>
+            <h3 class="h3" data-i18n="support.setclass"></h3>
+            <div id="s-classes" class="class-grid"></div>
+            <label for="s-notes" class="h3 mt" data-i18n="support.notes"></label>
+            <textarea id="s-notes" class="input" rows="2" maxlength="500"></textarea>
+          </div>
+        </section>
+        <section class="card" id="sup-model-card">
+          <h2 data-i18n="support.model"></h2>
+          <div class="kv"><span class="muted small" data-i18n="support.version"></span><strong id="m-version"></strong></div>
+          <div class="kv"><span class="muted small" data-i18n="support.retraining"></span><span id="m-retrain" class="small-lh"></span></div>
+          <button id="retrain-btn" class="btn btn-block" type="button"><span class="spinner" hidden></span><span class="btn-label" data-i18n="support.retrain_now"></span></button>
+          <p class="muted small mt-s" data-i18n="support.retrain_note"></p>
+          <hr>
+          <h3 class="h3" data-i18n="support.rounds"></h3>
+          <div id="rounds" class="rounds"></div>
+        </section>
+      </div>
+    </section>
+
+    <!-- History -->
+    <section id="view-history" class="view" hidden>
+      <div class="page-head"><div><h1 data-i18n="history.title"></h1><p class="muted" data-i18n="history.sub"></p></div></div>
+      <div class="toolbar">
+        <div class="search"><span data-icon="search"></span><input id="h-q" class="input" type="search" data-i18n-ph="history.search" data-i18n-aria="history.search"></div>
+        <select id="h-class" class="input select" data-i18n-aria="history.f_class"></select>
+        <select id="h-status" class="input select" data-i18n-aria="history.f_status"></select>
+      </div>
+      <section class="card table-card">
+        <div class="trow thead"><span data-i18n="history.date"></span><span data-i18n="history.image"></span><span data-i18n="history.prediction"></span><span data-i18n="history.margin"></span><span data-i18n="history.model"></span><span data-i18n="history.status"></span><span></span></div>
+        <div id="h-rows" class="tbody"></div>
+        <div id="h-empty" class="empty" hidden><p data-i18n="history.empty"></p></div>
+        <div class="table-foot"><span id="h-count" class="muted small"></span><button id="h-export" class="btn" type="button"><span class="btn-label" data-i18n="history.export"></span></button></div>
+      </section>
+    </section>
+
+    <!-- Weights missing -->
+    <section id="view-setup" class="view" hidden>
+      <section class="card setup">
+        <h2 data-i18n="setup.title"></h2>
+        <p data-i18n="setup.body"></p>
+        <code id="setup-path" class="code"></code>
+        <button id="setup-retry" class="btn btn-primary" type="button"><span class="btn-label" data-i18n="setup.retry"></span></button>
+      </section>
+    </section>
+  </main>
+
+  <footer class="foot"><span id="foot-mode"></span><span data-i18n="foot.disclaimer"></span><span></span></footer>
+</div>
+
+<dialog id="about" class="dialog" aria-labelledby="about-title">
+  <h2 id="about-title" data-i18n="about.title"></h2>
+  <div class="about-body" data-i18n-html="about.body"></div>
+  <div class="row end"><button id="about-close" class="btn btn-primary" type="button"><span class="btn-label" data-i18n="about.close"></span></button></div>
+</dialog>
+
+<div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
+
+<script src="i18n.js"></script>
+<script src="icons.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

@@ -72,7 +72,16 @@ The environment file is a draft and has not been tested yet. Exact versions will
 
 ## Data
 
-The images are **not** stored in this repository. The original project used the Kaggle dataset [Brain Tumour Classification](https://www.kaggle.com/datasets/rishiksaisanthosh/brain-tumour-classification). Its Kaggle page lists the license as "Unknown", so the images are not redistributed here. Source, version, checks and the expected local layout are in [`data/README.md`](data/README.md).
+No image is stored in this repository. Where every piece of data comes from:
+
+| Role | Source | License | Used for | Redistributed here? |
+|:--|:--|:--|:--|:--|
+| Training, validation and internal test | Kaggle, [Brain Tumour Classification](https://www.kaggle.com/datasets/rishiksaisanthosh/brain-tumour-classification) (uploader: Rishik Sai Santhosh) | "Unknown" on the Kaggle page; the page gives no origin for the images | Supervised models, active learning, the internal test | No. Only the split tables (`splits/kaggle_splits_seed42.tsv`: file names, md5, groups, folds) |
+| External evaluation | Kaggle, [Brain Tumor MRI Dataset](https://www.kaggle.com/datasets/masoudnickparvar/brain-tumor-mri-dataset) (Masoud Nickparvar), a combination of figshare, SARTAJ and Br35H according to its description | CC BY 4.0 | External evaluation on the 2,180 images with no near-twin in the training data (`splits/external_nickparvar_c095_manifest.tsv`) | No. Four slices appear, scaled, in the screenshots, with attribution (see [Credits](#credits)) |
+| Pretrained backbones | ImageNet-pretrained weights from `torchvision` (ConvNeXt-Tiny and the other CNNs); DINOv2-B from `torch.hub` for one baseline | The terms of those projects | Starting point of the models | No (downloaded by the code) |
+| Weights of the trained model | Trained here on the first dataset | The training data's license is unknown | The app | Yes, as the asset `best.pt` of the release `v1.0` (see [Reproducibility](#reproducibility)) |
+
+The first dataset may combine earlier public datasets, which can put near-identical images on both sides of a split, so the splits group near-duplicates (`data/README.md`). The folder used by the original project (22,017 PNG images) is not known to match the Kaggle version (18,279 JPG images). Source, version, checks and the expected local layout are in [`data/README.md`](data/README.md). Nothing here is a clinical result.
 
 ## Roadmap
 
@@ -150,6 +159,7 @@ Every strategy beat random sampling in all three seeds from 600 images on. The f
   2. `python scripts/13_active_learning.py --help` lists the arms (random, entropy, margin, mcdropout, coreset, badge, original, full), the seed and the paths; a run writes its folder under the output directory and can be started again, it resumes from the saved labelled order.
   3. `python scripts/15_make_labels.py splits/kaggle_splits_seed42.tsv splits/external_nickparvar_c095_manifest.tsv labels.npz` writes the labels file (identical to `results/active_learning/labels.npz`).
   4. `python scripts/14_active_learning_analysis.py results/active_learning results/active_learning/labels.npz docs/figures` recomputes the figure and the tables without images or a GPU.
+- **Weights for the app:** asset `best.pt` of the release `v1.0` (SHA-256 `33e280ce1dcba71a9111743b1905ab7b8838dcbf436912edfa8090c553d7c39d`). `python -m app.weights` downloads it, checks the hash and installs it; see `app/README.md`. The training data's license is unknown (`data/README.md`).
 - **Tests:** `pytest tests/`. `test_active_learning_isolation.py` checks that every labelled set comes from the pool only (never from the validation fold or the test fold); `test_splits.py` needs the local curation files and is skipped without them.
 - **Data:** source and checks in `data/README.md`.
 - **Decisions:** logged in `docs/decisions.md`.
@@ -166,3 +176,5 @@ Original group project, Human-Centric Artificial Intelligence, University of Coi
 The screenshots in `docs/screens/` show four slices from the [Brain Tumor MRI Dataset](https://www.kaggle.com/datasets/masoudnickparvar/brain-tumor-mri-dataset) by Masoud Nickparvar (CC BY 4.0; combination of figshare, SARTAJ and Br35H), scaled but not otherwise changed.
 
 Maintained by Daniel Rocha.
+
+This project was improved with the help of artificial intelligence (Claude, by Anthropic), used on the code, tests, interface and documentation. The author directed the work and is responsible for its content.

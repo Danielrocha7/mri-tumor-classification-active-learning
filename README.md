@@ -4,7 +4,7 @@ Four-class classification of brain MRI slices (glioma, meningioma, pituitary tum
 
 This repository continues a group project from the Human-Centric Artificial Intelligence course (University of Coimbra, 2025). The original code is kept apart in [`original/`](original/) and credited [below](#credits). Everything outside that folder is new work by Daniel Rocha, aimed at a sounder evaluation and a reproducible codebase.
 
-> **Status (2026-11-18):** leak-free splits, baselines, and internal and external evaluation are done (see [Results](#results)). The original code has not been moved here yet. Active learning, the final evaluation and the application are still to do; see the roadmap.
+> **Status (2026-11-18):** leak-free splits, baselines, and internal and external evaluation are done (see [Results](#results)). The original code has not been moved here yet. Active learning is done too (see [Results](#results)). The final evaluation and the application are still to do; see the roadmap.
 
 > **Not a clinical tool.** This is a learning and portfolio project. It must not be used to diagnose, triage or make any medical decision.
 
@@ -44,7 +44,7 @@ mri-tumor-classification-active-learning/
 ├── scripts/           # numbered, flat scripts that run the pipeline step by step (planned)
 ├── src/               # reusable code: splits, metrics, models, active learning (planned)
 ├── app/               # desktop application (planned)
-├── results/           # light tables and figures (planned)
+├── results/           # light outputs: supervised runs and active-learning predictions
 └── tests/             # checks for splits and metrics (planned)
 ```
 
@@ -71,7 +71,7 @@ Draft, in order of priority:
 - [x] Check the dataset for near-duplicate images before splitting (group-aware splits in `splits/`)
 - [x] Use separate training, validation and test sets; choose checkpoints on validation only (supervised baselines)
 - [x] Report per-class recall and precision, the confusion matrix, and confidence intervals, not only accuracy (supervised models, internal test)
-- [ ] Compare active learning with random sampling and with a fully supervised baseline
+- [x] Compare active learning with random sampling and with a fully supervised baseline (`docs/active_learning_results.md`)
 - [ ] Make the retraining loop unable to reach the test set
 - [ ] Application: hash passwords, keep the database out of the repository, move settings to the config file
 - [ ] Data download script, pinned environment, basic tests
@@ -113,6 +113,22 @@ Performance drops on another source, mostly because about 14% of the gliomas are
 ![Internal test against external set: macro-F1 per seed and recall per class](docs/figures/internal_vs_external.png)
 
 ![External confusion matrices](docs/figures/external_confusion.png)
+
+**Active learning (6 strategies and random sampling, ConvNeXt-Tiny, 60 to 1,200 labelled images, 3 seeds).** Test macro-F1 at 1,200 labelled images (7.6% of the pool), with the full-pool reference trained with the same short recipe; details, tables for all budgets and limits in [`docs/active_learning_results.md`](docs/active_learning_results.md).
+
+| Strategy | Internal test | External set |
+|:--|:--|:--|
+| Random | 0.960 | 0.866 |
+| Entropy | 0.988 | 0.940 |
+| Margin | 0.991 | 0.941 |
+| MC-dropout | 0.988 | 0.945 |
+| Core-Set | 0.980 | 0.915 |
+| BADGE | 0.991 | 0.945 |
+| Full pool (15,717 images, 6 epochs) | 0.992 | 0.943 |
+
+Every strategy beat random sampling in all three seeds from 600 images on. The four best strategies are not separated with three seeds, and the external glioma recall stays near 0.85 whatever the strategy. The replica of the original loop (EfficientNet-B0, 577 labelled images) scores about the same as random sampling at that size, so the accuracy reported by the original project says little about the query strategy.
+
+![Active learning curves](docs/figures/al_curves.png)
 
 ## Reproducibility
 

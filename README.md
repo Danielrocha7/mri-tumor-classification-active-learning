@@ -2,9 +2,9 @@
 
 Four-class classification of brain MRI slices (glioma, meningioma, pituitary tumor, no tumor) with a convolutional network, an active learning loop, and a small desktop application where a user confirms predictions that are later used to retrain the model.
 
-This repository continues a group project from the Human-Centric Artificial Intelligence course (University of Coimbra, 2025). The original code is kept apart in [`original/`](original/) and credited [below](#credits). Everything outside that folder is new work by Daniel Rocha, aimed at a sounder evaluation and a reproducible codebase.
+This repository continues a group project from the Human-Centric Artificial Intelligence course (University of Coimbra, 2025). The original code is not included in this repository and is credited [below](#credits). Everything here is new work by Daniel Rocha, aimed at a sounder evaluation and a reproducible codebase.
 
-> **Status (2026-11-18):** leak-free splits, baselines, and internal and external evaluation are done (see [Results](#results)). The original code has not been moved here yet. Active learning is done too (see [Results](#results)). The final evaluation and the application are still to do; see the roadmap.
+> **Status (2026-11-18):** leak-free splits, baselines, and internal and external evaluation are done (see [Results](#results)). Active learning is done too (see [Results](#results)). The final evaluation and the application are still to do; see the roadmap.
 
 > **Not a clinical tool.** This is a learning and portfolio project. It must not be used to diagnose, triage or make any medical decision.
 
@@ -28,7 +28,7 @@ A first audit of the original project (2026-11-17, details and method in [`docs/
 - The best checkpoint and the early stopping were chosen on the test set.
 - The labelled-set table (`treino_rotulado.csv`) and the retraining script read saved indices against the wrong list: 129 of the 596 labelled images are test images.
 
-What this repository changes is listed in the [roadmap](#roadmap) and tracked in [`docs/decisions.md`](docs/decisions.md). The original code stays untouched in `original/`, so the differences can always be compared.
+What this repository changes is listed in the [roadmap](#roadmap) and tracked in [`docs/decisions.md`](docs/decisions.md). The original code is not republished here; the audit of what it did is in [`docs/evaluation_audit.md`](docs/evaluation_audit.md).
 
 ## Repository structure
 
@@ -40,7 +40,6 @@ mri-tumor-classification-active-learning/
 ├── configs/           # seeds and parameters (config.yaml)
 ├── data/              # NOT tracked by Git (see data/README.md)
 ├── docs/              # decision log and evaluation notes
-├── original/          # group code as submitted, without data, weights or database (planned)
 ├── scripts/           # numbered, flat scripts that run the pipeline step by step (planned)
 ├── src/               # reusable code: splits, metrics, models, active learning (planned)
 ├── app/               # desktop application (planned)
@@ -146,7 +145,7 @@ Every strategy beat random sampling in all three seeds from 600 images on. The f
 
 ## License
 
-The code is released under the [MIT license](LICENSE) (Copyright 2026 Daniel Rocha). The original group code in `original/`, when added, keeps its authors' credit. The dataset is not covered by the license and keeps its own terms.
+The code is released under the [MIT license](LICENSE) (Copyright 2026 Daniel Rocha). The original group code is not part of this repository. The dataset is not covered by the license and keeps its own terms.
 
 ## Credits
 
